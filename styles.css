@@ -1,0 +1,45 @@
+/* Celulares */
+@media (max-width: 576px) {}
+
+/* Tablets */
+@media (max-width: 768px) {}
+
+/* Laptop */
+@media (max-width: 1024px) {}
+
+/* PC */
+@media (min-width: 1440px) {}
+
+
+
+
+@media (min-width: 768px) {
+
+    body {
+        background-color: #f8f3e7;
+    }
+
+    .title {
+        color: #283C46;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        font-size: 50px;
+        height: auto;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+    .subtitle {
+        color: #283C46;
+        font-family: Arial, sans-serif;
+        font-size: 35px;
+        padding: 20px;
+    }
+
+    .text {
+        color: #283C46;
+        font-family: Arial, sans-serif;
+        font-size: 25px;
+        padding: 20px;
+    }
+}
