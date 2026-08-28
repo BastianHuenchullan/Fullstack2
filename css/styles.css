@@ -1,45 +1,75 @@
-/* Celulares */
-@media (max-width: 576px) {}
-
-/* Tablets */
-@media (max-width: 768px) {}
-
-/* Laptop */
-@media (max-width: 1024px) {}
-
-/* PC */
-@media (min-width: 1440px) {}
-
-
-
-
 @media (min-width: 768px) {
 
     body {
         background-color: #f8f3e7;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    header {
+        padding: 20px;
+        position: sticky;
+        top: 0;
+        background-color: #c5c1bd;
     }
 
     .title {
-        color: #283C46;
-        font-family: Arial, sans-serif;
         text-align: center;
-        font-size: 50px;
-        height: auto;
         margin: 0 auto;
-        padding: 30px;
+    }
+
+    .btn_inicio {
+        text-decoration: none;
+        color: #f8f3e7;
+        display: inline-block;
+        outline: #283C46;
+        font-size: 50px;
+        margin: 0 auto;
+    }
+
+    .main {
+        display: flex;
+        align-items: center;
+        max-width: 900px;
+        margin: 40px auto;
+        gap: 40px;
+        padding: 0 20px;
+    }
+
+    .historia_contenido,
+    .historia_perro {
+        flex: 1;
+    }
+
+    .historia_perro img {
+        width: 100%;
+        height: auto;
+        display: block;
     }
 
     .subtitle {
         color: #283C46;
-        font-family: Arial, sans-serif;
         font-size: 35px;
-        padding: 20px;
+        margin: 0 0 10px 0;
+        padding: 0;
+        white-space: nowrap;
     }
 
     .text {
         color: #283C46;
-        font-family: Arial, sans-serif;
-        font-size: 25px;
-        padding: 20px;
+        font-size: 20px;
+        margin: 0 0 15px 0;
+        padding: 0;
+    }
+
+    .btn_ver_mas {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #283C46;
+        font-weight: bold;
+        font-size: 18px;
+        text-decoration: underline;
+        display: inline-block;
     }
 }
