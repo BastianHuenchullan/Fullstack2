@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSalud - Registro</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- HEADER CON BOTONES -->
+    <header class="header">
+        <div class="header-left">
+            <a href="productos.html" class="btn-redondo">Productos</a>
+        </div>
+        
+        <div class="header-center">
+            <h1 class="title">
+                <a href="index.html" class="btn_inicio">PetSalud</a>
+            </h1>
+        </div>
+        
+        <div class="header-right">
+            <button class="btn-redondo">Ver carrito</button>
+            <div class="auth-links">
+                <a href="login.html">Iniciar sesión</a>
+                
+                <span class="separator">|</span>
+                
+                <a href="registro.html">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="contenedor-formulario">
+            <div class="header-formulario">
+                <h2>Registro de usuario</h2>
+                <a href="login.html" class="link-esquina">¿Ya estas registrado? Inicia sesión</a>
+            </div>
+
+            <form id="formRegistro">
+                <div class="grupo-input">
+                    <label>Nombre:</label>
+                    <input type="text" id="regNombre" class="input-linea">
+                </div>
+                <div class="grupo-input">
+                    <label>Apellido:</label>
+                    <input type="text" id="regApellido" class="input-linea">
+                </div>
+                <div class="grupo-input">
+                    <label>Correo Electrónico:</label>
+                    <input type="email" id="regCorreo" class="input-linea">
+                </div>
+                <div class="grupo-input">
+                    <label>Contraseña:</label>
+                    <input type="password" id="regPass1" class="input-linea">
+                </div>
+                <div class="grupo-input">
+                    <label>Repetir contraseña:</label>
+                    <input type="password" id="regPass2" class="input-linea">
+                </div>
+
+                <div class="opciones-checkbox">
+                    <label>
+                        <input type="checkbox" id="regTerminos"> Aceptas las <a href="#" style="color: blue;">políticas y términos</a> de PetSalud?
+                    </label>
+                </div>
+
+                <div class="acciones-form">
+                    <button type="submit" class="btn-completar">Completar registro</button>
+                </div>
+                
+                <div id="regError" class="error-msg"></div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col"><p>© 2026 PetSalud. Todos los derechos reservados.</p></div>
+        <div class="footer-col"><h4>Contacto</h4><p>+56 9 1234 5678</p></div>
+        <div class="footer-col">
+            <h4>Encuéntranos en:</h4>
+            <ul>
+                <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
+                <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
