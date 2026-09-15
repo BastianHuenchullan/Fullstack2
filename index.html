@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +7,84 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <h1 class="title">
-            <a href="#" class="btn_inicio">PetSalud</a>
-        </h1>
+
+    <!-- HEADER CON LOS BOTONES -->
+    <header class="header">
+        <div class="header-left">
+            <a href="productos.html" class="btn-redondo">Productos</a>
+        </div>
+        
+        <div class="header-center">
+            <h1 class="title">
+                <a href="index.html" class="btn_inicio">PetSalud</a>
+            </h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-redondo">Ver carrito</button>
+            <div class="auth-links">
+                <a href="login.html">Iniciar sesión</a>
+                <span class="separator">|</span>
+                <a href="registro.html">Registrarse</a>
+            </div>
+        </div>
     </header>
-    <section class="main">
+
+    <!-- PRINCIPAL -->
+    <main class="main">
         <div class="historia_contenido">
             <h2 class="subtitle">Nuestra Historia</h2>
             <p class="text">PetSalud es un negocio que comenzó en 1890 gracias a una pareja que se dedicaba a hacer mandados. Entre sus labores, acudían a supermercados y comercios establecidos a comprar alimentos para mascotas para luego transportarlos a los hogares de sus clientes...</p>
-            <button href="#" class="btn_ver_mas">Ver más</button>
+            
+            <button id="btn-ver-mas" class="btn-texto-link">Ver más</button>
+            
+            <div id="video-container" style="display: none;">
+                <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="https://www.youtube.com/watch?v=GsLp0CAw-7M" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen scrolling="no" allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;" referrerpolicy="strict-origin"></iframe></div>
+                
+                <button id="btn-ver-menos" class="btn-texto-link">Ver menos</button>
+            </div>
         </div>
+
         <div class="historia_perro">
-            <img src="assets/dog.png" alt="">
+            <img src="assets/dog.png" alt="Perro de PetSalud">
         </div>
-    </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-col">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Contacto</h4>
+            <p>+56 9 1234 5678</p>
+        </div>
+        <div class="footer-col">
+            <h4>Encuéntranos en:</h4>
+            <ul>
+                <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
+                <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- FUNCIONAMIENTO DEL VER MÁS Y VER MENOS -->
+    <script>
+        const btnVerMas = document.getElementById('btn-ver-mas');
+        const btnVerMenos = document.getElementById('btn-ver-menos');
+        const videoContainer = document.getElementById('video-container');
+
+        // BOTÓN DE VER MÁS
+        btnVerMas.addEventListener('click', function() {
+            btnVerMas.style.display = 'none';
+            videoContainer.style.display = 'block';
+        });
+
+        // BOTÓN DE VER MENOS
+        btnVerMenos.addEventListener('click', function() {
+            videoContainer.style.display = 'none';
+            btnVerMas.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
