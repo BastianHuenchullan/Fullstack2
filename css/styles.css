@@ -1,75 +1,279 @@
-@media (min-width: 768px) {
+/* BASE GENERAL */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FAF8F2;
+    color: #141414;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-    body {
-        background-color: #f8f3e7;
-        margin: 0;
-        font-family: Arial, sans-serif;
-    }
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #E6E6E6;
+    padding: 15px 30px;
+    box-shadow: none; 
+}
 
-    header {
-        padding: 20px;
-        position: sticky;
-        top: 0;
-        background-color: #c5c1bd;
-    }
+.header-left, .header-right, .header-center {
+    flex: 1;
+}
 
-    .title {
-        text-align: center;
-        margin: 0 auto;
-    }
+.header-center {
+    text-align: center;
+}
 
-    .btn_inicio {
-        text-decoration: none;
-        color: #f8f3e7;
-        display: inline-block;
-        outline: #283C46;
-        font-size: 50px;
-        margin: 0 auto;
-    }
+.title {
+    margin: 0;
+}
 
-    .main {
-        display: flex;
-        align-items: center;
-        max-width: 900px;
-        margin: 40px auto;
-        gap: 40px;
-        padding: 0 20px;
-    }
+.title .btn_inicio {
+    color: #fff;
+    text-decoration: none;
+    text-shadow: none; 
+    font-size: 42px; 
+    font-weight: bold;
+}
 
-    .historia_contenido,
-    .historia_perro {
-        flex: 1;
-    }
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
 
-    .historia_perro img {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
+/* BOTON DE PRODUCTOS */
+.btn-redondo {
+    text-decoration: none;
+    color: #141414;
+    border: 1px solid #141414;
+    padding: 8px 18px;
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-    .subtitle {
-        color: #283C46;
-        font-size: 35px;
-        margin: 0 0 10px 0;
-        padding: 0;
-        white-space: nowrap;
-    }
+/* BOTON DE VER CARRITO */
+.btn-carrito {
+    text-decoration: none;
+    color: #141414;
+    border: 1px solid #141414;
+    padding: 8px 18px;
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
 
-    .text {
-        color: #283C46;
-        font-size: 20px;
-        margin: 0 0 15px 0;
-        padding: 0;
-    }
+.auth-links {
+    font-size: 14px;
+}
 
-    .btn_ver_mas {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: #283C46;
-        font-weight: bold;
-        font-size: 18px;
-        text-decoration: underline;
-        display: inline-block;
-    }
+.auth-links a {
+    text-decoration: none;
+    color: #141414;
+}
+
+.separator {
+    margin: 0 8px;
+    color: #999;
+}
+
+/* CONTENIDO PRINCIPAL (INDEX.HTML) */
+.main {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    gap: 50px;
+}
+
+.historia_contenido {
+    flex: 1;
+}
+
+.subtitle {
+    color: #2A3E47;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.historia_perro {
+    flex: 1;
+    text-align: center;
+}
+
+.historia_perro img {
+    max-width: 75%;
+    height: auto;
+}
+
+.video-redondeado {
+    border-radius: 12px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.btn-texto-link {
+    background: none;
+    border: none;
+    color: #141414;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 0;
+    font-weight: bold;
+}
+
+/* FORMULARIOS (LOGIN Y REGISTRO) */
+.contenedor-formulario {
+    border: 2px solid #141414;
+    border-radius: 40px;
+    padding: 40px 50px;
+    width: 100%;
+    max-width: 600px;
+    background-color: #FAF8F2;
+    position: relative;
+}
+
+.header-formulario {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.header-formulario h2 {
+    font-size: 36px;
+    margin: 0;
+    text-decoration: underline;
+}
+
+.link-esquina {
+    position: absolute;
+    right: 0;
+    top: 15px;
+    font-size: 14px;
+    color: blue;
+    text-decoration: none;
+}
+
+.grupo-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.grupo-input label {
+    width: 160px;
+    font-size: 18px;
+}
+
+.input-linea {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid #141414;
+    background: transparent;
+    font-size: 16px;
+    padding: 5px;
+    outline: none;
+}
+
+.opciones-checkbox {
+    margin-left: 160px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.acciones-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.link-olvido {
+    color: blue;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-completar {
+    background: transparent;
+    border: 2px solid #141414;
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.registro-link-footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.texto-normal {
+    font-size: 16px;
+    color: #141414;
+}
+
+.link-subrayado {
+    color: blue;
+    text-decoration: underline;
+    font-size: 16px;
+}
+
+.error-msg {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* --- FOOTER --- */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 30px 50px;
+    border-top: 1px solid #ccc;
+    background-color: #FAF8F2;
+}
+
+.footer-col {
+    flex: 1;
+}
+
+.footer-col h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #2A3E47;
+}
+
+.footer-col ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 5px;
+    font-size: 14px;
 }
