@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSalud - Catálogo Perros</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <button class="btn-carrito" id="btn-carrito">Ver carrito (<span id="cart-count">0</span>)</button>
+        </div>
+        <div class="header-center">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header-logo">
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="auth-links" id="auth-links">
+                <a href="login.html">Iniciar sesión</a>
+                <span class="separator">|</span>
+                <a href="registro.html">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-productos">
+        <h2 class="titulo-seccion">Productos de perros</h2>
+        
+        <div class="contenedor-busqueda">
+            <input type="text" class="input-busqueda" placeholder="Buscar alimento para perro...">
+            <img src="assets/productos_busqueda.png" alt="Lupa" class="icono-busqueda">
+        </div>
+
+        <div class="grid-productos-creativos">
+            <div class="producto-item" data-detalle="Alimento completo y balanceado especialmente formulado para mantener la energía y salud de tu perro.">
+                <div class="producto-imagen-wrapper">
+                    <img src="assets/productos_radial_vector.png" class="producto-hover-bg" alt="Fondo radial">
+                    <img src="assets/productos_perro_1.png" class="producto-img" alt="Producto 1">
+                    <div class="botones-producto">
+                        <button class="btn-agregar-plus">+</button>
+                        <button class="btn-editar-admin" style="display: none;" title="Editar">✏️</button>
+                    </div>
+                </div>
+                <h3 class="producto-titulo">DOGCHOW</h3>
+                <p class="producto-precio">$22.990</p>
+            </div>
+
+            <div class="producto-item" data-detalle="Nutrición premium para perros activos con alta dosis de proteínas y vitaminas.">
+                <div class="producto-imagen-wrapper">
+                    <img src="assets/productos_radial_vector.png" class="producto-hover-bg" alt="Fondo radial">
+                    <img src="assets/productos_perro_2.png" class="producto-img" alt="Producto 2">
+                    <div class="botones-producto">
+                        <button class="btn-agregar-plus">+</button>
+                        <button class="btn-editar-admin" style="display: none;" title="Editar">✏️</button>
+                    </div>
+                </div>
+                <h3 class="producto-titulo">BIRBO DOG</h3>
+                <p class="producto-precio">$18.990</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer-col">
+            <h4><a href="contacto.html" class="link-contacto">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono-wp"> Escríbenos al +56 9 2135 5198 para más información.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Encuéntranos en:</h4>
+            <ul>
+                <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
+                <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioActual'));
+        const authLinks = document.getElementById('auth-links');
+        const cartCountSpan = document.getElementById('cart-count');
+        
+        let esAdmin = false;
+
+        if (usuarioLogueado) {
+            const primerNombre = usuarioLogueado.nombre.split(' ')[0];
+            esAdmin = usuarioLogueado.correo && usuarioLogueado.correo.endsWith('@petsalud.cl');
+            const rolTexto = esAdmin ? ' (Admin.)' : '';
+            
+            authLinks.innerHTML = `
+                <a href="#">¡Hola, ${primerNombre}${rolTexto}!</a>
+                <span class="separator">|</span>
+                <a href="#" id="btnCerrarSesion">Cerrar sesión</a>
+            `;
+            document.getElementById('btnCerrarSesion').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuarioActual');
+                localStorage.removeItem('cartCount');
+                window.location.reload();
+            });
+        }
+
+        // Lógica del botón de carrito visible siempre
+        document.getElementById('btn-carrito').addEventListener('click', function() {
+            if (!usuarioLogueado) {
+                alert("Por favor, inicia sesión para ver el carrito.");
+            }
+        });
+        
+        let count = parseInt(localStorage.getItem('cartCount')) || 0;
+        if(cartCountSpan) cartCountSpan.textContent = count;
+
+        document.querySelectorAll('.btn-agregar-plus').forEach(btn => {
+            btn.addEventListener('click', (event) => {
+                event.stopPropagation(); 
+                if (!usuarioLogueado) { alert("Por favor, inicia sesión para añadir al carrito."); return; }
+                if (count < 10) {
+                    count++;
+                    localStorage.setItem('cartCount', count);
+                    cartCountSpan.textContent = count;
+                } else { alert("Límite máximo de 10 artículos en el carrito."); }
+            });
+        });
+
+        document.querySelectorAll('.producto-item').forEach(card => {
+            card.addEventListener('click', () => {
+                const titulo = card.querySelector('.producto-titulo').textContent;
+                const precio = card.querySelector('.producto-precio').textContent;
+                const img = card.querySelector('.producto-img').src;
+                const detalle = card.getAttribute('data-detalle');
+
+                localStorage.setItem('detTitulo', titulo);
+                localStorage.setItem('detPrecio', precio);
+                localStorage.setItem('detImg', img);
+                localStorage.setItem('detDesc', detalle);
+                
+                window.location.href = 'detalle.html';
+            });
+        });
+
+        if (esAdmin) {
+            document.querySelectorAll('.btn-editar-admin').forEach(btn => {
+                btn.style.display = 'flex'; 
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    const card = e.target.closest('.producto-item');
+                    const tituloEl = card.querySelector('.producto-titulo');
+                    const precioEl = card.querySelector('.producto-precio');
+                    const detalleActual = card.getAttribute('data-detalle');
+
+                    const nuevoTitulo = prompt("Editar nombre del producto:", tituloEl.textContent);
+                    if (nuevoTitulo === null) return; 
+                    tituloEl.textContent = nuevoTitulo;
+
+                    const nuevoPrecio = prompt("Editar precio del producto:", precioEl.textContent);
+                    if (nuevoPrecio === null) return;
+                    precioEl.textContent = nuevoPrecio;
+
+                    const nuevoDetalle = prompt("Editar descripción del detalle:", detalleActual);
+                    if (nuevoDetalle === null) return;
+                    card.setAttribute('data-detalle', nuevoDetalle);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

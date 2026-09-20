@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSalud - Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <button class="btn-carrito" id="btn-carrito">Ver carrito (<span id="cart-count">0</span>)</button>
+        </div>
+        <div class="header-center">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header-logo">
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="auth-links" id="auth-links">
+                <a href="login.html">Iniciar sesión</a>
+                <span class="separator">|</span>
+                <a href="registro.html">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main" style="flex-direction: column; justify-content: center;">
+        <h2 class="titulo-seccion">Inicio de sesión</h2>
+        
+        <div class="contenedor-contacto" style="max-width: 500px; flex-direction: column; gap: 20px;">
+            <form id="formLogin" style="display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <label class="contacto-label" style="margin-top: 0;">Correo electrónico:</label>
+                    <input type="email" id="logCorreo" class="contacto-input" required>
+                </div>
+                <div>
+                    <label class="contacto-label" style="margin-top: 0;">Contraseña:</label>
+                    <input type="password" id="logPass" class="contacto-input" required>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                    <a href="#" class="link-olvido">¿Olvidaste tu contraseña?</a>
+                    <button type="submit" class="btn-enviar" style="align-self: center; width: 100%;">Iniciar sesión</button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <span style="font-size: 14px;">¿Aún no te has registrado? </span>
+                    <a href="registro.html" class="link-subrayado" style="font-size: 14px;">Registrate aquí</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer-col">
+            <h4><a href="contacto.html" class="link-contacto">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono-wp"> Escríbenos al +56 9 2135 5198 para más información.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Encuéntranos en:</h4>
+            <ul>
+                <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
+                <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioActual'));
+        if (usuarioLogueado) window.location.href = 'index.html'; 
+
+        document.getElementById('btn-carrito').addEventListener('click', function() {
+            alert("Por favor, inicia sesión para ver el carrito.");
+        });
+
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const correo = document.getElementById('logCorreo').value;
+            let nombreMuestra = correo.split('@')[0];
+            nombreMuestra = nombreMuestra.charAt(0).toUpperCase() + nombreMuestra.slice(1);
+            
+            localStorage.setItem('usuarioActual', JSON.stringify({ nombre: nombreMuestra, correo: correo }));
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

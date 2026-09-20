@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSalud - Inicio</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <button class="btn-carrito" id="btn-carrito">Ver carrito (<span id="cart-count">0</span>)</button>
+        </div>
+        <div class="header-center">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header-logo">
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="auth-links" id="auth-links">
+                <a href="login.html">Iniciar sesión</a>
+                <span class="separator">|</span>
+                <a href="registro.html">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main" style="flex-direction: column; justify-content: center; width: 100%;">
+        
+        <!-- VISTA 1: HISTORIA -->
+        <div id="vista-historia" style="display: flex; flex-direction: column; align-items: center; width: 100%; flex: 1; justify-content: center;">
+            <div class="seccion-principal">
+                <div class="historia_contenido">
+                    <h2 class="subtitle">Nuestra Historia</h2>
+                    <p class="text">PetSalud es un negocio que comenzó en 1890 gracias a una pareja que se dedicaba a hacer mandados. Entre sus labores, acudían a supermercados y comercios establecidos a comprar alimentos para mascotas para luego transportarlos a los hogares de sus clientes...</p>
+                    
+                    <button id="btn-ver-mas" class="btn-texto-link">Ver más</button>
+                    
+                    <div id="video-container" style="display: none;">
+                        <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;">
+                            <iframe src="https://www.youtube.com/embed/GsLp0CAw-7M" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen></iframe>
+                        </div>
+                        <button id="btn-ver-menos" class="btn-texto-link" style="margin-top: 15px;">Ver menos</button>
+                    </div>
+                </div>
+
+                <div class="historia_perro">
+                    <img src="assets/dog.png" alt="Perro de PetSalud">
+                </div>
+            </div>
+
+            <div class="flecha-container">
+                <img src="assets/chevron_down_icon.png" alt="Bajar" id="btnCambiarAbajo" class="flecha-scroll">
+            </div>
+        </div>
+
+        <!-- VISTA 2: CATEGORÍAS -->
+        <div id="vista-categorias" style="display: none; flex-direction: column; align-items: center; width: 100%; flex: 1; justify-content: center;">
+            <section class="seccion-categorias">
+                <h2 class="subtitle" style="margin-bottom: 0;">Selecciona una mascota</h2>
+                <div class="categorias-grid">
+                    <a href="productos_perros.html" class="categoria-card">
+                        <img src="assets/productos_perro.png" alt="Productos para Perros">
+                        <h3>Perros</h3>
+                    </a>
+                    <a href="productos_gatos.html" class="categoria-card">
+                        <img src="assets/productos_gato.png" alt="Productos para Gatos">
+                        <h3>Gatos</h3>
+                    </a>
+                </div>
+            </section>
+
+            <div class="flecha-container">
+                <img src="assets/chevron_up_icon.png" alt="Subir" id="btnCambiarArriba" class="flecha-scroll">
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer-col">
+            <h4><a href="contacto.html" class="link-contacto">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono-wp"> Escríbenos al +56 9 2135 5198 para más información.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Encuéntranos en:</h4>
+            <ul>
+                <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
+                <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioActual'));
+        const authLinks = document.getElementById('auth-links');
+        const cartCountSpan = document.getElementById('cart-count');
+
+        if (usuarioLogueado) {
+            const primerNombre = usuarioLogueado.nombre.split(' ')[0];
+            const esAdmin = usuarioLogueado.correo && usuarioLogueado.correo.endsWith('@petsalud.cl');
+            const rolTexto = esAdmin ? ' (Admin.)' : '';
+            
+            authLinks.innerHTML = `
+                <a href="#">¡Hola, ${primerNombre}${rolTexto}!</a>
+                <span class="separator">|</span>
+                <a href="#" id="btnCerrarSesion">Cerrar sesión</a>
+            `;
+            
+            document.getElementById('btnCerrarSesion').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuarioActual');
+                localStorage.removeItem('cartCount');
+                window.location.reload(); 
+            });
+        }
+
+        // Lógica Global del Botón Carrito
+        document.getElementById('btn-carrito').addEventListener('click', function() {
+            if (!usuarioLogueado) {
+                alert("Por favor, inicia sesión para ver el carrito.");
+            }
+        });
+
+        let count = parseInt(localStorage.getItem('cartCount')) || 0;
+        if(cartCountSpan) cartCountSpan.textContent = count;
+
+        const btnVerMas = document.getElementById('btn-ver-mas');
+        const btnVerMenos = document.getElementById('btn-ver-menos');
+        const videoContainer = document.getElementById('video-container');
+
+        if(btnVerMas) {
+            btnVerMas.addEventListener('click', function() {
+                btnVerMas.style.display = 'none';
+                videoContainer.style.display = 'block';
+            });
+        }
+        if(btnVerMenos) {
+            btnVerMenos.addEventListener('click', function() {
+                videoContainer.style.display = 'none';
+                btnVerMas.style.display = 'block';
+            });
+        }
+
+        document.getElementById('btnCambiarAbajo').addEventListener('click', function() {
+            document.getElementById('vista-historia').style.display = 'none';
+            document.getElementById('vista-categorias').style.display = 'flex';
+        });
+        document.getElementById('btnCambiarArriba').addEventListener('click', function() {
+            document.getElementById('vista-categorias').style.display = 'none';
+            document.getElementById('vista-historia').style.display = 'flex';
+        });
+    </script>
+</body>
+</html>
