@@ -7,73 +7,119 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- HEADER CON BOTONES -->
-    <header class="header">
-        <div class="header-left">
-            <a href="productos.html" class="btn-redondo">Productos</a>
+
+    <header class="header_principal">
+        <div class="header_izq">
+            <button class="btn_carrito" id="btn_carrito">Ver carrito (<span id="carrito_cantidad">0</span>)</button>
         </div>
-        
-        <div class="header-center">
-            <h1 class="title">
-                <a href="index.html" class="btn_inicio">PetSalud</a>
-            </h1>
+        <div class="header_centro">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header_logo">
+            </a>
         </div>
-        
-        <div class="header-right">
-            <button class="btn-redondo">Ver carrito</button>
-            <div class="auth-links">
+        <div class="header_der">
+            <div class="enlaces_sesion" id="enlaces_sesion">
                 <a href="login.html">Iniciar sesión</a>
-                
-                <span class="separator">|</span>
-                
+                <span class="separador_sesion">|</span>
                 <a href="registro.html">Registrarse</a>
             </div>
         </div>
     </header>
 
-    <main class="main">
-        <div class="contenedor-formulario">
-            <div class="header-formulario">
-                <h2>Inicio de sesión</h2>
-            </div>
-
-            <form id="formLogin">
-                <div class="grupo-input">
-                    <label>Correo electrónico:</label>
-                    <input type="email" id="logCorreo" class="input-linea">
+    <main class="main_general" style="flex-direction: column; justify-content: center;">
+        <h2 class="titulo_seccion">Inicio de sesión</h2>
+        
+        <div class="caja_formularios" style="max-width: 500px; flex-direction: column; gap: 20px;">
+            <form id="login_formulario" style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                <div>
+                    <label class="etiqueta_formulario">Correo electrónico:</label>
+                    <input type="email" id="login_correo" class="input_formulario" required>
                 </div>
-                <div class="grupo-input">
-                    <label>Contraseña:</label>
-                    <input type="password" id="logPass" class="input-linea">
+                <div>
+                    <label class="etiqueta_formulario">Contraseña:</label>
+                    <input type="password" id="login_contrasena" class="input_formulario" required>
                 </div>
                 
-                <div class="acciones-form">
-                    <a href="#" class="link-olvido">¿Olvidaste tu contraseña?</a>
-                    <button type="submit" class="btn-completar">Iniciar sesión</button>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                    <a href="#" class="enlace_secundario" style="text-align: center; text-decoration: none;" id="btn_olvido">¿Olvidaste tu contraseña?</a>
+                    <button type="submit" class="btn_principal">Iniciar sesión</button>
                 </div>
                 
-                <div id="logError" class="error-msg"></div>
-
-                <div class="registro-link-footer">
-                    <span class="texto-normal">¿Aún no te has registrado? </span>
-                    <a href="registro.html" class="link-subrayado">Registrate aquí</a>
+                <div style="text-align: center; margin-top: 20px;">
+                    <span style="font-size: 14px;">¿Aún no te has registrado? </span>
+                    <a href="registro.html" class="enlace_secundario">Registrate aquí</a>
                 </div>
             </form>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-col"><p>© 2026 PetSalud. Todos los derechos reservados.</p></div>
-        <div class="footer-col"><h4>Contacto</h4><p>+56 9 1234 5678</p></div>
-        <div class="footer-col">
+    <footer class="footer_principal">
+        <div class="footer_columna">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer_columna">
+            <h4><a href="contacto.html" class="enlace_texto" style="color: #FAF8F2; font-weight: bold;">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono_whatsapp"> Escríbenos al +56 9 2135 5198 para más información.</p>
+        </div>
+        <div class="footer_columna">
             <h4>Encuéntranos en:</h4>
             <ul>
                 <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
                 <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
             </ul>
         </div>
     </footer>
 
-    <script src="js/auth.js"></script>
+    <script>
+        const usuario_actual = JSON.parse(localStorage.getItem('usuario_actual'));
+        if (usuario_actual) window.location.href = 'index.html'; 
+
+        document.getElementById('btn_carrito').addEventListener('click', function() {
+            alert("Por favor, inicia sesión para ver el carrito.");
+        });
+
+        document.getElementById('btn_olvido').addEventListener('click', function(e) {
+            e.preventDefault();
+            const correo_ingresado = prompt("Ingresa tu correo electrónico para recuperar tu contraseña:");
+            
+            if (correo_ingresado) {
+                const partes = correo_ingresado.split('@');
+                if (partes.length === 2) {
+                    const nombre_usuario = partes[0];
+                    const dominio = partes[1];
+                    
+                    if (nombre_usuario.length > 0) {
+                        const ultima_letra = nombre_usuario.slice(-1);
+                        const asteriscos = '*'.repeat(nombre_usuario.length - 1);
+                        const correo_oculto = asteriscos + ultima_letra + '@' + dominio;
+                        alert("Hemos enviado un correo a " + correo_oculto + " para restablecer tu contraseña.");
+                    } else { alert("Por favor, ingresa un correo válido."); }
+                } else { alert("Por favor, ingresa un correo válido."); }
+            }
+        });
+
+        document.getElementById('login_formulario').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const correo = document.getElementById('login_correo').value;
+            const contrasena = document.getElementById('login_contrasena').value;
+            
+            if (correo.length <= 4 || contrasena.length <= 4) {
+                alert("Todos los campos deben tener más de 4 caracteres.");
+                return;
+            }
+
+            if (!correo.endsWith('@gmail.com') && !correo.endsWith('@hotmail.com') && !correo.endsWith('@petsalud.cl')) {
+                alert("Correo y/o contraseña inválidos.");
+                return;
+            }
+
+            let nombre_muestra = correo.split('@')[0];
+            const nombre_capitalizado = nombre_muestra.charAt(0).toUpperCase() + nombre_muestra.slice(1);
+            
+            localStorage.setItem('usuario_actual', JSON.stringify({ nombre: nombre_capitalizado, correo: correo }));
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
 </html>
