@@ -8,57 +8,92 @@
 </head>
 <body>
 
-    <!-- HEADER CON LOS BOTONES -->
-    <header class="header">
-        <div class="header-left">
-            <a href="productos.html" class="btn-redondo">Productos</a>
+    <header class="header_principal">
+        <div class="header_izq">
+            <button class="btn_carrito" id="btn_carrito">Ver carrito (<span id="carrito_cantidad">0</span>)</button>
         </div>
-        
-        <div class="header-center">
-            <h1 class="title">
-                <a href="index.html" class="btn_inicio">PetSalud</a>
-            </h1>
+        <div class="header_centro">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header_logo">
+            </a>
         </div>
-        <div class="header-right">
-            <button class="btn-redondo">Ver carrito</button>
-            <div class="auth-links">
+        <div class="header_der">
+            <div class="enlaces_sesion" id="enlaces_sesion">
                 <a href="login.html">Iniciar sesión</a>
-                <span class="separator">|</span>
+                <span class="separador_sesion">|</span>
                 <a href="registro.html">Registrarse</a>
             </div>
         </div>
     </header>
 
-    <!-- PRINCIPAL -->
-    <main class="main">
-        <div class="historia_contenido">
-            <h2 class="subtitle">Nuestra Historia</h2>
-            <p class="text">PetSalud es un negocio que comenzó en 1890 gracias a una pareja que se dedicaba a hacer mandados. Entre sus labores, acudían a supermercados y comercios establecidos a comprar alimentos para mascotas para luego transportarlos a los hogares de sus clientes...</p>
+    <main class="main_general" style="flex-direction: column; width: 100%; margin-bottom: 0; padding-bottom: 0;">
+        
+        <!-- HISTORIA -->
+        <div id="inicio_vista_historia" style="display: flex; flex-direction: column; width: 100%; flex: 1;">
             
-            <button id="btn-ver-mas" class="btn-texto-link">Ver más</button>
-            
-            <div id="video-container" style="display: none;">
-                <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="https://www.youtube.com/watch?v=GsLp0CAw-7M" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen scrolling="no" allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;" referrerpolicy="strict-origin"></iframe></div>
-                
-                <button id="btn-ver-menos" class="btn-texto-link">Ver menos</button>
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center; width: 100%;">
+                <div class="inicio_seccion">
+                    <div class="inicio_contenido">
+                        <h2 class="inicio_subtitulo">Nuestra Historia</h2>
+                        <!-- Texto actualizado a 1924 -->
+                        <p class="inicio_texto">PetSalud es un negocio que comenzó en 1924, gracias a una pareja que se dedicaba al cuidado de animales callejeros. Actualmente, nos dedicamos a vender productos de origen casero, con el fin de tener alimentos más saludables para tus mascotas y así traerles una mejor calidad de vida.</p>
+                        
+                        <button id="btn_ver_mas" class="btn_texto_enlace">Ver más</button>
+                        
+                        <div id="video_contenedor" style="display: none;">
+                            <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;">
+                                <iframe src="https://player.vimeo.com/video/1115185300?title=0&byline=0&portrait=0" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <button id="btn_ver_menos" class="btn_texto_enlace" style="margin-top: 15px;">Ver menos</button>
+                        </div>
+                    </div>
+
+                    <div class="inicio_perro">
+                        <img src="assets/principal_perro.png" alt="Perro de PetSalud">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flecha_contenedor">
+                <img src="assets/chevron_down_icon.png" alt="Bajar" id="btn_bajar" class="flecha_scroll">
             </div>
         </div>
 
-        <div class="historia_perro">
-            <img src="assets/dog.png" alt="Perro de PetSalud">
+        <!-- CATEGORÍAS -->
+        <div id="inicio_vista_categorias" style="display: none; flex-direction: column; width: 100%; flex: 1;">
+            
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center; width: 100%;">
+                <section class="categorias_seccion">
+                    <h2 class="inicio_subtitulo" style="margin-bottom: 0;">Selecciona una mascota</h2>
+                    <div class="categorias_grid">
+                        <a href="productos_perros.html" class="categoria_tarjeta">
+                            <img src="assets/productos_perro.png" alt="Productos para Perros">
+                            <h3>Perros</h3>
+                        </a>
+                        <a href="productos_gatos.html" class="categoria_tarjeta">
+                            <img src="assets/productos_gato.png" alt="Productos para Gatos">
+                            <h3>Gatos</h3>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <div class="flecha_contenedor">
+                <img src="assets/chevron_up_icon.png" alt="Subir" id="btn_subir" class="flecha_scroll">
+            </div>
         </div>
+
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-col">
+    <footer class="footer_principal">
+        <div class="footer_columna">
             <p>© 2026 PetSalud. Todos los derechos reservados.</p>
         </div>
-        <div class="footer-col">
-            <h4>Contacto</h4>
-            <p>+56 9 1234 5678</p>
+        <div class="footer_columna">
+            <h4><a href="contacto.html" class="enlace_texto" style="color: #FAF8F2; font-weight: bold;">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono_whatsapp"> Escríbenos al +56 9 2135 5198 para más información.</p>
         </div>
-        <div class="footer-col">
+        <div class="footer_columna">
             <h4>Encuéntranos en:</h4>
             <ul>
                 <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
@@ -68,22 +103,60 @@
         </div>
     </footer>
 
-    <!-- FUNCIONAMIENTO DEL VER MÁS Y VER MENOS -->
     <script>
-        const btnVerMas = document.getElementById('btn-ver-mas');
-        const btnVerMenos = document.getElementById('btn-ver-menos');
-        const videoContainer = document.getElementById('video-container');
+        const usuario_actual = JSON.parse(localStorage.getItem('usuario_actual'));
+        const enlaces_sesion = document.getElementById('enlaces_sesion');
+        const carrito_cantidad = document.getElementById('carrito_cantidad');
 
-        // BOTÓN DE VER MÁS
-        btnVerMas.addEventListener('click', function() {
-            btnVerMas.style.display = 'none';
-            videoContainer.style.display = 'block';
+        if (usuario_actual) {
+            const primer_nombre = usuario_actual.nombre.split(' ')[0];
+            const administrador = usuario_actual.correo && usuario_actual.correo.endsWith('@petsalud.cl');
+            const texto_rol = administrador ? ' (Admin)' : '';
+            
+            enlaces_sesion.innerHTML = `<a href="#">¡Hola, ${primer_nombre}${texto_rol}!</a> <span class="separador_sesion">|</span> <a href="#" id="btn_cerrar_sesion">Cerrar sesión</a>`;
+            
+            document.getElementById('btn_cerrar_sesion').addEventListener('click', function(e) {
+                e.preventDefault(); 
+                localStorage.removeItem('usuario_actual'); 
+                localStorage.removeItem('carrito_items'); 
+                window.location.reload(); 
+            });
+        }
+
+        document.getElementById('btn_carrito').addEventListener('click', function() {
+            if (!usuario_actual) { alert("Por favor, inicia sesión para ver el carrito."); } 
+            else { window.location.href = 'carrito.html'; }
         });
 
-        // BOTÓN DE VER MENOS
-        btnVerMenos.addEventListener('click', function() {
-            videoContainer.style.display = 'none';
-            btnVerMas.style.display = 'block';
+        let elementos_carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
+        if(carrito_cantidad) carrito_cantidad.textContent = elementos_carrito.length;
+
+        // Botones del texto de historia
+        const btn_ver_mas = document.getElementById('btn_ver_mas');
+        const btn_ver_menos = document.getElementById('btn_ver_menos');
+        const video_contenedor = document.getElementById('video_contenedor');
+
+        if(btn_ver_mas) {
+            btn_ver_mas.addEventListener('click', function() {
+                btn_ver_mas.style.display = 'none';
+                video_contenedor.style.display = 'block';
+            });
+        }
+        if(btn_ver_menos) {
+            btn_ver_menos.addEventListener('click', function() {
+                video_contenedor.style.display = 'none';
+                btn_ver_mas.style.display = 'block';
+            });
+        }
+
+        // Botones del scroll
+        document.getElementById('btn_bajar').addEventListener('click', function() {
+            document.getElementById('inicio_vista_historia').style.display = 'none';
+            document.getElementById('inicio_vista_categorias').style.display = 'flex';
+        });
+        document.getElementById('btn_subir').addEventListener('click', function() {
+            document.getElementById('inicio_vista_historia').style.display = 'flex';
+            document.getElementById('inicio_vista_categorias').style.display = 'none';
         });
     </script>
 </body>
