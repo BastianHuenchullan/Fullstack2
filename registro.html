@@ -7,78 +7,79 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- HEADER CON BOTONES -->
-    <header class="header">
-        <div class="header-left">
-            <a href="productos.html" class="btn-redondo">Productos</a>
+
+    <header class="header_principal">
+        <div class="header_izq">
+            <button class="btn_carrito" id="btn_carrito">Ver carrito (<span id="carrito_cantidad">0</span>)</button>
         </div>
-        
-        <div class="header-center">
-            <h1 class="title">
-                <a href="index.html" class="btn_inicio">PetSalud</a>
-            </h1>
+        <div class="header_centro">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header_logo">
+            </a>
         </div>
-        
-        <div class="header-right">
-            <button class="btn-redondo">Ver carrito</button>
-            <div class="auth-links">
+        <div class="header_der">
+            <div class="enlaces_sesion" id="enlaces_sesion">
                 <a href="login.html">Iniciar sesión</a>
-                
-                <span class="separator">|</span>
-                
+                <span class="separador_sesion">|</span>
                 <a href="registro.html">Registrarse</a>
             </div>
         </div>
     </header>
 
-    <main class="main">
-        <div class="contenedor-formulario">
-            <div class="header-formulario">
-                <h2>Registro de usuario</h2>
-                <a href="login.html" class="link-esquina">¿Ya estas registrado? Inicia sesión</a>
-            </div>
-
-            <form id="formRegistro">
-                <div class="grupo-input">
-                    <label>Nombre:</label>
-                    <input type="text" id="regNombre" class="input-linea">
-                </div>
-                <div class="grupo-input">
-                    <label>Apellido:</label>
-                    <input type="text" id="regApellido" class="input-linea">
-                </div>
-                <div class="grupo-input">
-                    <label>Correo Electrónico:</label>
-                    <input type="email" id="regCorreo" class="input-linea">
-                </div>
-                <div class="grupo-input">
-                    <label>Contraseña:</label>
-                    <input type="password" id="regPass1" class="input-linea">
-                </div>
-                <div class="grupo-input">
-                    <label>Repetir contraseña:</label>
-                    <input type="password" id="regPass2" class="input-linea">
+    <main class="main_general" style="flex-direction: column; justify-content: center;">
+        <h2 class="titulo_seccion">Registro de usuario</h2>
+        
+        <div class="caja_formularios" style="max-width: 500px; flex-direction: column; gap: 20px;">
+            
+            <form id="registro_formulario" style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <a href="login.html" class="enlace_secundario" style="font-size: 14px;">¿Ya estás registrado? Inicia sesión</a>
                 </div>
 
-                <div class="opciones-checkbox">
-                    <label>
-                        <input type="checkbox" id="regTerminos"> Aceptas las <a href="#" style="color: blue;">políticas y términos</a> de PetSalud?
-                    </label>
+                <div>
+                    <label class="etiqueta_formulario">Nombre:</label>
+                    <input type="text" id="registro_nombre" class="input_formulario" required>
                 </div>
-
-                <div class="acciones-form">
-                    <button type="submit" class="btn-completar">Completar registro</button>
+                <div>
+                    <label class="etiqueta_formulario">Apellido:</label>
+                    <input type="text" id="registro_apellido" class="input_formulario" required>
+                </div>
+                <div>
+                    <label class="etiqueta_formulario">Correo Electrónico:</label>
+                    <input type="email" id="registro_correo" class="input_formulario" required>
+                </div>
+                <div>
+                    <label class="etiqueta_formulario">Contraseña:</label>
+                    <input type="password" id="registro_contrasena_1" class="input_formulario" required>
+                </div>
+                <div>
+                    <label class="etiqueta_formulario">Repetir contraseña:</label>
+                    <input type="password" id="registro_contrasena_2" class="input_formulario" required>
                 </div>
                 
-                <div id="regError" class="error-msg"></div>
+                <div style="margin-top: 10px;">
+                    <label style="font-size: 14px;">
+                        <input type="checkbox" required> Aceptas las <a href="#" class="enlace_secundario">políticas y términos</a> de PetSalud
+                    </label>
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <button type="submit" class="btn_principal">Registrarse</button>
+                </div>
             </form>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-col"><p>© 2026 PetSalud. Todos los derechos reservados.</p></div>
-        <div class="footer-col"><h4>Contacto</h4><p>+56 9 1234 5678</p></div>
-        <div class="footer-col">
+    <footer class="footer_principal">
+        <div class="footer_columna">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer_columna">
+            <h4><a href="contacto.html" class="enlace_texto" style="color: #FAF8F2; font-weight: bold;">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono_whatsapp"> Escríbenos al +56 9 2135 5198 para más información.</p>
+        </div>
+        <div class="footer_columna">
             <h4>Encuéntranos en:</h4>
             <ul>
                 <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
@@ -88,6 +89,50 @@
         </div>
     </footer>
 
-    <script src="js/auth.js"></script>
+    <script>
+        const usuario_actual = JSON.parse(localStorage.getItem('usuario_actual'));
+        if (usuario_actual) window.location.href = 'index.html'; 
+
+        document.getElementById('btn_carrito').addEventListener('click', function() {
+            alert("Por favor, inicia sesión para ver el carrito.");
+        });
+
+        document.getElementById('registro_formulario').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nombre = document.getElementById('registro_nombre').value;
+            const apellido = document.getElementById('registro_apellido').value;
+            const correo = document.getElementById('registro_correo').value;
+            const contrasena_1 = document.getElementById('registro_contrasena_1').value;
+            const contrasena_2 = document.getElementById('registro_contrasena_2').value;
+            
+            if (nombre.length <= 4 || apellido.length <= 4 || correo.length <= 4 || contrasena_1.length <= 4) {
+                alert("Todos los campos deben tener más de 4 caracteres.");
+                return;
+            }
+
+            if (!correo.endsWith('@gmail.com') && !correo.endsWith('@hotmail.com') && !correo.endsWith('@petsalud.cl')) {
+                alert("Correo inválido.");
+                return;
+            }
+
+            if (contrasena_1 !== contrasena_2) {
+                alert("Las contraseñas no coinciden.");
+                return;
+            }
+
+            const tiene_mayuscula = /[A-Z]/.test(contrasena_1);
+            const tiene_numero = /[0-9]/.test(contrasena_1);
+            
+            if (!tiene_mayuscula || !tiene_numero) {
+                alert("La contraseña debe contener al menos una letra mayúscula y un número.");
+                return;
+            }
+
+            const nombre_capitalizado = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+            localStorage.setItem('usuario_actual', JSON.stringify({ nombre: nombre_capitalizado, correo: correo }));
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
 </html>
