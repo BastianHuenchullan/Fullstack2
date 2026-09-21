@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSalud - Tu Carrito</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header class="header_principal">
+        <div class="header_izq">
+            <button class="btn_carrito" id="btn_carrito">Ver carrito (<span id="carrito_cantidad">0</span>)</button>
+        </div>
+        <div class="header_centro">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header_logo">
+            </a>
+        </div>
+        <div class="header_der">
+            <div class="enlaces_sesion" id="enlaces_sesion">
+                <a href="login.html">Iniciar sesión</a>
+                <span class="separador_sesion">|</span>
+                <a href="registro.html">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main_general" style="flex-direction: column; align-items: center;">
+        <h2 class="titulo_seccion">Tu Carrito de Compras</h2>
+        
+        <div class="caja_formularios" style="max-width: 600px; flex-direction: column; gap: 20px; width: 100%;">
+            
+            <div id="lista_carrito" style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+            </div>
+            
+            <hr style="width: 100%; border: 1px solid #141414; margin: 10px 0;">
+            
+            <div style="text-align: right; width: 100%;">
+                <p style="font-size: 22px; font-weight: bold; color: #2A3E47; margin: 0;" id="total_carrito">Total: $0 CLP</p>
+            </div>
+            
+            <button class="btn_principal" id="btn_comprar" style="margin-top: 15px;">Comprar</button>
+        </div>
+    </main>
+
+    <footer class="footer_principal">
+        <div class="footer_columna">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer_columna">
+            <h4><a href="contacto.html" class="enlace_texto" style="color: #FAF8F2; font-weight: bold;">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono_whatsapp"> Escríbenos al +56 9 2135 5198 para más información.</p>
+        </div>
+        <div class="footer_columna">
+            <h4>Encuéntranos en:</h4>
+            <ul>
+                <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
+                <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        const usuario_actual = JSON.parse(localStorage.getItem('usuario_actual'));
+        const enlaces_sesion = document.getElementById('enlaces_sesion');
+        const carrito_cantidad = document.getElementById('carrito_cantidad');
+
+        if (!usuario_actual) {
+            alert("Debes iniciar sesión para acceder al carrito.");
+            window.location.href = 'login.html';
+        } else {
+            const primer_nombre = usuario_actual.nombre.split(' ')[0];
+            const administrador = usuario_actual.correo && usuario_actual.correo.endsWith('@petsalud.cl');
+            const texto_rol = administrador ? ' (Admin)' : '';
+            enlaces_sesion.innerHTML = `<a href="#">¡Hola, ${primer_nombre}${texto_rol}!</a> <span class="separador_sesion">|</span> <a href="#" id="btn_cerrar_sesion">Cerrar sesión</a>`;
+            document.getElementById('btn_cerrar_sesion').addEventListener('click', function(e) {
+                e.preventDefault(); localStorage.removeItem('usuario_actual'); localStorage.removeItem('carrito_items'); window.location.href = 'index.html';
+            });
+        }
+
+        const lista_carrito = document.getElementById('lista_carrito');
+        const total_carrito = document.getElementById('total_carrito');
+        let elementos_carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
+        let suma_total = 0;
+
+        if(carrito_cantidad) carrito_cantidad.textContent = elementos_carrito.length;
+
+        if (elementos_carrito.length === 0) {
+            lista_carrito.innerHTML = '<p style="text-align: center; color: gray; font-size: 18px;">El carro está vacío.</p>';
+        } else {
+            lista_carrito.innerHTML = ''; 
+            elementos_carrito.forEach((item) => {
+                let valor_numerico = parseInt(item.precio.replace('$', '').replace('.', '')) || 0;
+                suma_total += valor_numerico;
+                
+                lista_carrito.innerHTML += `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ccc; padding: 10px 0;">
+                        <span style="font-weight: bold; color: #2A3E47; font-size: 18px;">${item.titulo}</span>
+                        <span style="color: #2A3E47; font-size: 18px;">${item.precio} CLP</span>
+                    </div>
+                `;
+            });
+        }
+        
+        total_carrito.textContent = 'Total: $' + suma_total.toLocaleString('es-CL') + ' CLP';
+
+        document.getElementById('btn_comprar').addEventListener('click', function() {
+            if (elementos_carrito.length === 0) { 
+                alert("No tienes productos en el carro para comprar."); 
+                return; 
+            }
+            alert("¡Compra procesada con éxito! Volviendo al inicio...");
+            localStorage.removeItem('carrito_items');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

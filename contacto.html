@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSalud - Contacto</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header class="header_principal">
+        <div class="header_izq">
+            <button class="btn_carrito" id="btn_carrito">Ver carrito (<span id="carrito_cantidad">0</span>)</button>
+        </div>
+        <div class="header_centro">
+            <a href="index.html">
+                <img src="assets/petsalud_logo.png" alt="PetSalud Logo" class="header_logo">
+            </a>
+        </div>
+        <div class="header_der">
+            <div class="enlaces_sesion" id="enlaces_sesion">
+                <a href="login.html">Iniciar sesión</a>
+                <span class="separador_sesion">|</span>
+                <a href="registro.html">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main_general" style="flex-direction: column;">
+        <h2 class="titulo_seccion">Rellena la información para contactarnos</h2>
+
+        <div class="caja_formularios" style="align-items: flex-start;">
+            
+            <div style="flex: 1; width: 100%;">
+                <h3 style="margin-top: 0; color: #2A3E47;">Acerca de ti</h3>
+                
+                <label class="etiqueta_formulario">Selecciona el motivo del contacto*</label>
+                <select class="input_formulario" id="contacto_motivo" style="color: gray; margin-bottom: 15px;">
+                    <option value="" disabled selected>Selecciona una opción...</option>
+                    <option value="reclamo" style="color: black;">Reclamo</option>
+                    <option value="duda" style="color: black;">Duda sobre producto(s)</option>
+                    <option value="felicitacion" style="color: black;">Otro motivo</option>
+                </select>
+
+                <div class="formulario_grid">
+                    <div>
+                        <label class="etiqueta_formulario">Nombre*</label>
+                        <input type="text" class="input_formulario" id="contacto_nombre" placeholder="Nombre">
+                    </div>
+                    <div>
+                        <label class="etiqueta_formulario">Apellido*</label>
+                        <input type="text" class="input_formulario" id="contacto_apellido" placeholder="Apellido">
+                    </div>
+                    <div>
+                        <label class="etiqueta_formulario">Correo electrónico*</label>
+                        <input type="email" class="input_formulario" id="contacto_correo" placeholder="ejemplo@gmail.com">
+                    </div>
+                    <div>
+                        <label class="etiqueta_formulario">Número de teléfono*</label>
+                        <input type="text" class="input_formulario" id="contacto_telefono" placeholder="Ej. 912345678">
+                    </div>
+                    <div>
+                        <label class="etiqueta_formulario">Ciudad*</label>
+                        <input type="text" class="input_formulario" id="contacto_ciudad" placeholder="Ciudad">
+                    </div>
+                </div>
+            </div>
+
+            <div style="flex: 1; display: flex; flex-direction: column; width: 100%; height: 100%;">
+                <label class="etiqueta_formulario" style="margin-top: 0;">Detalla tu solicitud:*</label>
+                <textarea class="input_formulario" id="contacto_detalle" maxlength="1500" style="resize: none; flex: 1; margin-bottom: 15px; min-height: 150px;"></textarea>
+                
+                <button class="btn_principal" id="btn_enviar" style="width: auto; align-self: flex-start;">Enviar</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer_principal">
+        <div class="footer_columna">
+            <p>© 2026 PetSalud. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer_columna">
+            <h4><a href="contacto.html" class="enlace_texto" style="color: #FAF8F2; font-weight: bold;">Contáctanos ></a></h4>
+            <p><img src="assets/whatsapp_icon.png" alt="WhatsApp" class="icono_whatsapp"> Escríbenos al +56 9 2135 5198 para más información.</p>
+        </div>
+        <div class="footer_columna">
+            <h4>Encuéntranos en:</h4>
+            <ul>
+                <li>Sucursal 1: Av. Quintero, Juan Laprieta 8291</li>
+                <li>Sucursal 2: Av. Caracól, Luka Yamil 2340</li>
+                <li>Sucursal 3: Av. Providencia, Pedro de Valdivia 1111</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        const usuario_actual = JSON.parse(localStorage.getItem('usuario_actual'));
+        const enlaces_sesion = document.getElementById('enlaces_sesion');
+        const carrito_cantidad = document.getElementById('carrito_cantidad');
+
+        if (usuario_actual) {
+            const primer_nombre = usuario_actual.nombre.split(' ')[0];
+            const administrador = usuario_actual.correo && usuario_actual.correo.endsWith('@petsalud.cl');
+            const texto_rol = administrador ? ' (Admin)' : '';
+            
+            enlaces_sesion.innerHTML = `<a href="#">¡Hola, ${primer_nombre}${texto_rol}!</a> <span class="separador_sesion">|</span> <a href="#" id="btn_cerrar_sesion">Cerrar sesión</a>`;
+            document.getElementById('btn_cerrar_sesion').addEventListener('click', function(e) {
+                e.preventDefault(); 
+                localStorage.removeItem('usuario_actual'); 
+                localStorage.removeItem('carrito_items'); 
+                window.location.reload();
+            });
+        }
+
+        document.getElementById('btn_carrito').addEventListener('click', function() {
+            if (!usuario_actual) { alert("Por favor, inicia sesión para ver el carrito."); } 
+            else { window.location.href = 'carrito.html'; }
+        });
+        
+        let elementos_carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
+        if(carrito_cantidad) carrito_cantidad.textContent = elementos_carrito.length;
+
+        document.getElementById('btn_enviar').addEventListener('click', function() {
+            const motivo = document.getElementById('contacto_motivo').value;
+            const nombre = document.getElementById('contacto_nombre').value.trim();
+            const apellido = document.getElementById('contacto_apellido').value.trim();
+            const correo = document.getElementById('contacto_correo').value.trim();
+            const telefono = document.getElementById('contacto_telefono').value.trim();
+            const ciudad = document.getElementById('contacto_ciudad').value.trim();
+            const detalle = document.getElementById('contacto_detalle').value.trim();
+
+            if (!motivo) {
+                alert("Por favor, selecciona un motivo de contacto.");
+                return;
+            }
+
+            const regex_letras = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/; 
+            const regex_correo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+            const regex_telefono = /^[0-9]{9}$/; 
+
+            if (nombre.length < 3 || !regex_letras.test(nombre)) {
+                alert("El nombre debe tener al menos 3 caracteres y contener solo letras.");
+                return;
+            }
+
+            if (apellido.length < 3 || !regex_letras.test(apellido)) {
+                alert("El apellido debe tener al menos 3 caracteres y contener solo letras.");
+                return;
+            }
+
+            if (!regex_correo.test(correo)) {
+                alert("Por favor, ingresa un correo electrónico válido (ejemplo@gmail.com).");
+                return;
+            }
+
+            if (!regex_telefono.test(telefono)) {
+                alert("El número de teléfono debe contener exactamente 9 dígitos numéricos (ej. 912345678).");
+                return;
+            }
+
+            if (ciudad.length < 3 || !regex_letras.test(ciudad)) {
+                alert("La ciudad debe tener al menos 3 caracteres y contener solo letras.");
+                return;
+            }
+
+            if (detalle.length < 10) {
+                alert("Por favor, detalla tu solicitud usando al menos 10 caracteres.");
+                return;
+            }
+
+            alert("¡Tu mensaje se envió correctamente! Nos pondremos en contacto contigo pronto.");
+            
+            document.getElementById('contacto_motivo').value = '';
+            document.getElementById('contacto_nombre').value = '';
+            document.getElementById('contacto_apellido').value = '';
+            document.getElementById('contacto_correo').value = '';
+            document.getElementById('contacto_telefono').value = '';
+            document.getElementById('contacto_ciudad').value = '';
+            document.getElementById('contacto_detalle').value = '';
+        });
+    </script>
+</body>
+</html>
