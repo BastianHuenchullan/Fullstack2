@@ -83,28 +83,38 @@
         const lista_carrito = document.getElementById('lista_carrito');
         const total_carrito = document.getElementById('total_carrito');
         let elementos_carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
-        let suma_total = 0;
-
-        if(carrito_cantidad) carrito_cantidad.textContent = elementos_carrito.length;
-
-        if (elementos_carrito.length === 0) {
-            lista_carrito.innerHTML = '<p style="text-align: center; color: gray; font-size: 18px;">El carro está vacío.</p>';
-        } else {
-            lista_carrito.innerHTML = ''; 
-            elementos_carrito.forEach((item) => {
-                let valor_numerico = parseInt(item.precio.replace('$', '').replace('.', '')) || 0;
-                suma_total += valor_numerico;
-                
-                lista_carrito.innerHTML += `
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ccc; padding: 10px 0;">
-                        <span style="font-weight: bold; color: #2A3E47; font-size: 18px;">${item.titulo}</span>
-                        <span style="color: #2A3E47; font-size: 18px;">${item.precio} CLP</span>
-                    </div>
-                `;
-            });
-        }
         
-        total_carrito.textContent = 'Total: $' + suma_total.toLocaleString('es-CL') + ' CLP';
+        function renderizarCarrito() {
+            let suma_total = 0;
+            if(carrito_cantidad) carrito_cantidad.textContent = elementos_carrito.length;
+
+            if (elementos_carrito.length === 0) {
+                lista_carrito.innerHTML = '<p style="text-align: center; color: gray; font-size: 18px;">El carro está vacío.</p>';
+            } else {
+                lista_carrito.innerHTML = ''; 
+                elementos_carrito.forEach((item, index) => {
+                    let valor_numerico = parseInt(item.precio.replace('$', '').replace('.', '')) || 0;
+                    suma_total += valor_numerico;
+                    
+                    lista_carrito.innerHTML += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding: 10px 0;">
+                            <span style="font-weight: bold; color: #2A3E47; font-size: 18px; flex: 1;">${item.titulo}</span>
+                            <span style="color: #2A3E47; font-size: 18px; margin-right: 15px;">${item.precio} CLP</span>
+                            <button class="btn_icono_agregar" style="width: 25px; height: 25px; font-size: 20px; line-height: 0; padding-bottom: 4px;" onclick="eliminarProducto(${index})">-</button>
+                        </div>
+                    `;
+                });
+            }
+            total_carrito.textContent = 'Total: $' + suma_total.toLocaleString('es-CL') + ' CLP';
+        }
+
+        function eliminarProducto(index) {
+            elementos_carrito.splice(index, 1);
+            localStorage.setItem('carrito_items', JSON.stringify(elementos_carrito));
+            renderizarCarrito();
+        }
+
+        renderizarCarrito();
 
         document.getElementById('btn_comprar').addEventListener('click', function() {
             if (elementos_carrito.length === 0) { 
