@@ -12,7 +12,6 @@ body {
     min-height: 100vh;
 }
 
-
 /* HEADER */
 .header_principal {
     display: flex;
@@ -42,7 +41,6 @@ body {
     align-items: center;
     gap: 20px;
 }
-
 
 /* BOTONES Y LINKS GENERALES */
 .btn_carrito {
@@ -77,7 +75,6 @@ body {
     font-size: 14px;
 }
 
-
 /* CONTENEDOR PRINCIPAL (MAIN) */
 .main_general {
     flex: 1;
@@ -98,7 +95,6 @@ body {
     margin-top: 20px;
     width: 100%;
 }
-
 
 /* INDEX */
 .inicio_seccion {
@@ -207,7 +203,6 @@ body {
     text-transform: uppercase;
 }
 
-
 /* FORMULARIOS */
 .caja_formularios {
     display: flex;
@@ -274,33 +269,6 @@ body {
     display: flex;
     margin: 0 auto;
     box-sizing: border-box;
-}
-
-.busqueda_contenedor {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    margin-bottom: 50px;
-}
-
-.busqueda_input {
-    width: 100%;
-    padding: 12px 45px 12px 25px;
-    border-radius: 30px;
-    border: 3px solid #ccc;
-    font-size: 16px;
-    outline: none;
-    box-sizing: border-box;
-}
-
-.busqueda_icono {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 26px;
-    height: 26px;
-    pointer-events: none;
 }
 
 .productos_grid {
@@ -473,7 +441,6 @@ body {
     vertical-align: middle;
     margin-right: 5px;
 }
-
 
 /* CELULARES/PANTALLAS PEQUEÑAS */
 @media (max-width: 768px) {
