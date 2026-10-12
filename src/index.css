@@ -1,0 +1,501 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap');
+
+/* BASE */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    background-color: #FAF8F2 !important;
+    font-family: 'Arial', sans-serif;
+    color: #141414;
+    height: 100%; /* Para ocupar todo el alto de la página disponible */
+}
+
+.layout_principal {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Para que la caja mida toda la pantalla */
+}
+
+.main_productos {
+    flex: 1; 
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* HEADER */
+.header_principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2A3E47;
+    padding: 20px 40px;
+}
+
+.header_izq, .header_der, .header_centro {
+    flex: 1;
+}
+
+.header_centro {
+    display: flex;
+    justify-content: center;
+}
+
+.header_logo {
+    height: 50px;
+    width: auto;
+}
+
+.header_der {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+
+/* BOTONES Y LINKS GENERALES */
+.btn_carrito {
+    text-decoration: none;
+    color: #141414;
+    border: 1px solid #141414;
+    padding: 8px 18px;
+    border-radius: 5px;
+    background-color: #E6E6E6;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.enlaces_sesion {
+    font-size: 14px;
+}
+
+.enlaces_sesion a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.separador_sesion {
+    margin: 0 8px;
+    color: #FFFFFF;
+}
+
+.enlace_secundario {
+    color: blue;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+/* CONTENEDOR PRINCIPAL (MAIN) */
+.main_general {
+    flex: 1;
+    display: flex;
+    margin: 0 auto 80px auto;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.titulo_seccion {
+    color: #2A3E47;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* INDEX */
+.inicio_seccion {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.inicio_contenido {
+    flex: 1;
+}
+
+.inicio_subtitulo {
+    color: #2A3E47;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.inicio_texto {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.inicio_perro {
+    flex: 1;
+    text-align: center;
+}
+
+.inicio_perro img {
+    max-width: 100%;
+    max-height: 55vh;
+    object-fit: contain;
+    height: auto;
+}
+
+.btn_texto_enlace {
+    background: none;
+    border: none;
+    color: #141414;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 0;
+    font-weight: bold;
+}
+
+/* BOTON SCROLL */
+.flecha_contenedor {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.flecha_scroll {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.flecha_scroll:hover {
+    transform: scale(1.1);
+}
+
+/* CATEGORIAS (Perros / Gatos) */
+.categorias_seccion {
+    width: 100%;
+    text-align: center;
+}
+
+.categorias_grid {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.categoria_tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.categoria_tarjeta img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.categoria_tarjeta:hover img {
+    transform: scale(1.05);
+}
+
+.categoria_tarjeta h3 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: #2A3E47;
+    margin: 15px 0 0 0;
+    text-transform: uppercase;
+}
+
+/* FORMULARIOS */
+.caja_formularios {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    max-width: 900px;
+    background-color: #FAF8F2;
+    border: 2px solid #141414;
+    border-radius: 10px;
+    padding: 30px 40px;
+    margin-bottom: 60px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.formulario_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.etiqueta_formulario {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input_formulario {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #141414;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.btn_principal {
+    background-color: #141414;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.btn_principal:hover {
+    background-color: #2A3E47;
+}
+
+/* PRODUCTOS (Catálogo) */
+.main_productos {
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.productos_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 50px 20px;
+    width: 100%;
+}
+
+.producto_tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.producto_imagen_contenedor {
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.producto_fondo_hover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 130%;
+    height: 130%;
+    z-index: 1;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.producto_tarjeta:hover .producto_fondo_hover {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.producto_imagen {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.producto_tarjeta:hover .producto_imagen {
+    transform: scale(1.05);
+}
+
+.producto_titulo {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: #2A3E47;
+    margin: 10px 0 0 0;
+    text-transform: uppercase;
+}
+
+.producto_precio {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #2A3E47;
+    margin: -5px 0 0 0;
+}
+
+.botones_producto {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn_icono_agregar,
+.btn_icono_editar {
+    background-color: #141414;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn_icono_editar {
+    font-size: 16px;
+}
+
+.btn_icono_agregar:hover,
+.btn_icono_editar:hover {
+    transform: scale(1.15);
+    background-color: #2A3E47;
+}
+
+/* DETALLE DE PRODUCTO ESPECIFICO */
+.detalle_precio_texto {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2A3E47;
+    margin: 0;
+    font-family: 'Fredoka', sans-serif;
+}
+
+.detalle_descripcion_texto {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+/* FOOTER */
+.footer_principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px 60px;
+    background-color: #444444;
+    margin-top: auto;
+    color: #FAF8F2;
+}
+
+.footer_columna {
+    flex: 1;
+}
+
+.footer_columna p,
+.footer_columna h4,
+.footer_columna ul li {
+    color: #FAF8F2;
+}
+
+.footer_columna h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.footer_columna ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer_columna ul li {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.icono_whatsapp {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* CELULARES/PANTALLAS PEQUEÑAS */
+@media (max-width: 768px) {
+    
+    .header_principal {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .header_der {
+        justify-content: center;
+    }
+
+    .inicio_seccion {
+        flex-direction: column !important;
+        text-align: center;
+    }
+
+    .categorias_grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .caja_formularios {
+        flex-direction: column !important;
+        padding: 20px !important;
+        gap: 20px !important;
+    }
+
+    .formulario_grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer_principal {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+        padding: 30px 20px;
+    }
+}
+
