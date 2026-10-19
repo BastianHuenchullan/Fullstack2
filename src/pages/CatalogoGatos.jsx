@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { obtenerProductosPorCategoria } from '../data/productosData';
 
-function CatalogoPerros() {
-    const perros = obtenerProductosPorCategoria('perro');
+function CatalogoGatos() {
+    const gatos = obtenerProductosPorCategoria('gato');
 
     const agregarAlCarrito = (producto, e) => {
         e.preventDefault();
@@ -20,7 +20,7 @@ function CatalogoPerros() {
             elementos_carrito.push(producto);
             localStorage.setItem('carrito_items', JSON.stringify(elementos_carrito));
             alert("¡Producto agregado al carro con éxito!");
-            window.location.reload(); // Recargar para que el número del carrito se actualice en Header
+            window.location.reload(); 
         } else {
             alert("Límite máximo de 10 artículos en el carrito.");
         }
@@ -35,10 +35,10 @@ function CatalogoPerros() {
 
     return (
         <main className="main_productos">
-            <h2 className="titulo_seccion">Productos de perros</h2>
+            <h2 className="titulo_seccion">Productos de gatos</h2>
 
             <div className="productos_grid">
-                {perros.map((producto) => (
+                {gatos.map((producto) => (
                     <Link to="/detalle" key={producto.id} className="producto_tarjeta" onClick={() => verDetalle(producto)} style={{ textDecoration: 'none' }}>
                         <div className="producto_imagen_contenedor">
                             <img src="/assets/productos_radial_vector.png" className="producto_fondo_hover" alt="Fondo" />
