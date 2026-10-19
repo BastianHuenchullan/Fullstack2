@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Inicio() {
-    // Usamos el "estado" para recordar si el video está visible (true) o escondido (false)
     const [mostrarVideo, setMostrarVideo] = useState(false);
-    
-    // Usamos otro "estado" para saber si estamos viendo la historia o la sección de mascotas
-    const [vistaActual, setVistaActual] = useState('historia'); // puede ser 'historia' o 'categorias'
+    const [vistaActual, setVistaActual] = useState('historia');
 
     return (
         <main className="main_general" style={{ flexDirection: 'column', width: '100%', marginBottom: 0, paddingBottom: 0 }}>
