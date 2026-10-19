@@ -56,4 +56,4 @@ function CatalogoPerros() {
     );
 }
 
-export default CatalogoPerros;
+export default CatalogoGatos;
