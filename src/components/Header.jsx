@@ -1,31 +1,60 @@
+
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Header() {
     const navigate = useNavigate();
-    const [usuarioActual, setUsuarioActual] = useState(null);
+    const location = useLocation();
+
+    const {
+        usuario,
+        autenticado,
+        cargando,
+        cerrarSesion,
+        tieneRol
+    } = useAuth();
+
     const [cantidadCarrito, setCantidadCarrito] = useState(0);
 
+    const nombresRoles = {
+        ADMIN: 'Admin',
+        CLIENTE: 'Cliente'
+    };
+
     useEffect(() => {
-        const usuario = JSON.parse(localStorage.getItem('usuario_actual'));
-        if (usuario) {
-            setUsuarioActual(usuario);
-        }
+        const actualizarCarrito = () => {
+            const elementosCarrito =
+                JSON.parse(localStorage.getItem('carrito_items')) || [];
 
-        const elementos_carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
-        setCantidadCarrito(elementos_carrito.length);
-    }, []);
+            setCantidadCarrito(elementosCarrito.length);
+        };
 
-    const cerrarSesion = (e) => {
-        e.preventDefault();
+        actualizarCarrito();
+
+        window.addEventListener('storage', actualizarCarrito);
+
+        return () => {
+            window.removeEventListener('storage', actualizarCarrito);
+        };
+
+    }, [location.pathname]);
+
+    const manejarCerrarSesion = () => {
+        cerrarSesion();
+
         localStorage.removeItem('usuario_actual');
         localStorage.removeItem('carrito_items');
-        window.location.href = '/'; 
+
+        setCantidadCarrito(0);
+
+        navigate('/', { replace: true });
     };
 
     const irCarrito = () => {
-        if (!usuarioActual) {
-            alert("Por favor, inicia sesión para ver el carrito.");
+        if (!autenticado) {
+            alert('Por favor, inicia sesión para ver el carrito.');
+            navigate('/login');
         } else {
             navigate('/carrito');
         }
@@ -33,36 +62,91 @@ function Header() {
 
     return (
         <header className="header_principal">
+
             <div className="header_izq">
-                <button className="btn_carrito" onClick={irCarrito}>
-                    Ver carrito (<span>{cantidadCarrito}</span>)
-                </button>
+
+                {tieneRol('ADMIN') ? (
+                    <button
+                        className="btn_carrito"
+                        onClick={() => navigate('/admin/usuarios')}
+                    >
+                        Administrar usuarios
+                    </button>
+                ) : (
+                    <button
+                        className="btn_carrito"
+                        onClick={irCarrito}
+                        disabled={cargando}
+                    >
+                        Ver carrito (<span>{cantidadCarrito}</span>)
+                    </button>
+                )}
+
             </div>
+
             <div className="header_centro">
                 <Link to="/">
-                    <img src="/assets/petsalud_logo.png" alt="PetSalud Logo" className="header_logo" />
+                    <img
+                        src="/assets/petsalud_logo.png"
+                        alt="PetSalud Logo"
+                        className="header_logo"
+                    />
                 </Link>
             </div>
+
             <div className="header_der">
                 <div className="enlaces_sesion">
-                    {usuarioActual ? (
+
+                    {cargando ? (
+                        <span>Cargando...</span>
+
+                    ) : autenticado ? (
                         <>
-                            <a href="#">
-                                ¡Hola, {usuarioActual.nombre.split(' ')[0]} 
-                                {usuarioActual.correo.endsWith('@petsalud.cl') ? ' (Admin)' : ''}!
-                            </a>
-                            <span className="separador_sesion">|</span>
-                            <a href="#" onClick={cerrarSesion}>Cerrar sesión</a>
+                            <span>
+                                ¡Hola, {usuario.nombre.split(' ')[0]}!
+                                {' '}
+                                ({nombresRoles[usuario.rol]})
+                            </span>
+
+                            <span className="separador_sesion">
+                                |
+                            </span>
+
+                            <button
+                                type="button"
+                                onClick={manejarCerrarSesion}
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    color: 'inherit',
+                                    font: 'inherit',
+                                    cursor: 'pointer',
+                                    padding: 0
+                                }}
+                            >
+                                Cerrar sesión
+                            </button>
                         </>
+
                     ) : (
                         <>
-                            <Link to="/login">Iniciar sesión</Link>
-                            <span className="separador_sesion">|</span>
-                            <Link to="/registro">Registrarse</Link>
+                            <Link to="/login">
+                                Iniciar sesión
+                            </Link>
+
+                            <span className="separador_sesion">
+                                |
+                            </span>
+
+                            <Link to="/registro">
+                                Registrarse
+                            </Link>
                         </>
                     )}
+
                 </div>
             </div>
+
         </header>
     );
 }

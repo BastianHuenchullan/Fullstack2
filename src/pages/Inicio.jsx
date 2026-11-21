@@ -28,7 +28,9 @@ function Inicio() {
                                 {mostrarVideo && (
                                     <div id="video_contenedor">
                                         <div style={{ left: 0, width: '100%', height: 0, position: 'relative', paddingBottom: '56.25%' }}>
-                                            <iframe src="https://player.vimeo.com/video/1115185300?title=0&byline=0&portrait=0" style={{ top: 0, left: 0, width: '100%', height: '100%', position: 'absolute', border: 0 }} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>
+                                            <iframe title="Video de presentación de PetSalud"
+                                                    src="https://player.vimeo.com/video/1115185300?title=0&byline=0&portrait=0" style={{ top: 0, left: 0, width: '100%', height: '100%', position: 'absolute', border: 0 }} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen>
+                                            </iframe>
                                         </div>
                                         <button className="btn_texto_enlace" style={{ marginTop: '15px' }} onClick={() => setMostrarVideo(false)}>
                                             Ver menos

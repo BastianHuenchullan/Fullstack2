@@ -499,3 +499,199 @@ html, body, #root {
     }
 }
 
+.enlaces_sesion,
+.enlaces_sesion a,
+.enlaces_sesion span,
+.enlaces_sesion button {
+    color: #ffffff;
+}
+
+.enlaces_sesion button:hover {
+    text-decoration: underline;
+}
+
+.admin_contenedor {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 25px;
+    width: 95%;
+    max-width: 1400px;
+    align-items: start;
+    margin: 0 auto 30px;
+}
+
+.admin_panel {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.admin_panel h3 {
+    color: #2A3E47;
+    font-size: 22px;
+    margin: 0 0 20px;
+}
+
+.admin_panel p {
+    color: #555555;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.admin_formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin_formulario label {
+    color: #2A3E47;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.admin_formulario .input_formulario {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin_formulario .btn_principal {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.admin_tabla_contenedor {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.admin_tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+    color: #2A3E47;
+}
+
+.admin_tabla thead {
+    background-color: #2A3E47;
+    color: #ffffff;
+}
+
+.admin_tabla th,
+.admin_tabla td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #dddddd;
+    vertical-align: middle;
+}
+
+.admin_tabla th {
+    white-space: nowrap;
+}
+
+.admin_tabla tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.admin_tabla tbody tr:hover {
+    background-color: #eaf0f2;
+}
+
+.admin_acciones {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin_btn_editar,
+.admin_btn_eliminar,
+.admin_btn_cancelar {
+    border: none;
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.admin_btn_editar {
+    background-color: #2A3E47;
+    color: #ffffff;
+}
+
+.admin_btn_editar:hover {
+    background-color: #405965;
+}
+
+.admin_btn_eliminar {
+    background-color: #b93636;
+    color: #ffffff;
+}
+
+.admin_btn_eliminar:hover {
+    background-color: #922b2b;
+}
+
+.admin_btn_cancelar {
+    background-color: #e5e5e5;
+    color: #2A3E47;
+}
+
+.admin_btn_cancelar:hover {
+    background-color: #cccccc;
+}
+
+.admin_panel button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.admin_error,
+.admin_exito {
+    width: 95%;
+    max-width: 1400px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.admin_error {
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    color: #842029;
+}
+
+.admin_exito {
+    background-color: #d1e7dd;
+    border: 1px solid #a3cfbb;
+    color: #0f5132;
+}
+
+@media (max-width: 1100px) {
+    .admin_contenedor {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin_panel {
+        padding: 15px;
+    }
+
+    .admin_contenedor {
+        gap: 15px;
+    }
+
+    .admin_tabla th,
+    .admin_tabla td {
+        padding: 10px;
+    }
+}
+
+
