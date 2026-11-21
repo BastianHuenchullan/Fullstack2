@@ -6,21 +6,29 @@ function Header() {
     const [usuarioActual, setUsuarioActual] = useState(null);
     const [cantidadCarrito, setCantidadCarrito] = useState(0);
 
+    const actualizarContadorCarrito = () => {
+        const elementos_carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
+        setCantidadCarrito(elementos_carrito.length);
+    };
+
     useEffect(() => {
         const usuario = JSON.parse(localStorage.getItem('usuario_actual'));
         if (usuario) {
             setUsuarioActual(usuario);
         }
 
-        const elementos_carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
-        setCantidadCarrito(elementos_carrito.length);
+        actualizarContadorCarrito();
+        window.addEventListener('storage', actualizarContadorCarrito);
+        return () => window.removeEventListener('storage', actualizarContadorCarrito);
     }, []);
 
     const cerrarSesion = (e) => {
         e.preventDefault();
         localStorage.removeItem('usuario_actual');
         localStorage.removeItem('carrito_items');
-        window.location.href = '/'; 
+        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
+        window.location.href = '/';
     };
 
     const irCarrito = () => {
@@ -30,6 +38,8 @@ function Header() {
             navigate('/carrito');
         }
     };
+
+    const esAdmin = usuarioActual?.rol === 'ADMIN' || usuarioActual?.correo?.endsWith('@petsalud.cl');
 
     return (
         <header className="header_principal">
@@ -47,12 +57,20 @@ function Header() {
                 <div className="enlaces_sesion">
                     {usuarioActual ? (
                         <>
-                            <a href="#">
-                                ¡Hola, {usuarioActual.nombre.split(' ')[0]} 
-                                {usuarioActual.correo.endsWith('@petsalud.cl') ? ' (Admin)' : ''}!
-                            </a>
+                            <span>
+                                ¡Hola, {usuarioActual.nombre.split(' ')[0]}
+                                {esAdmin ? ' (Admin)' : ''}!
+                            </span>
                             <span className="separador_sesion">|</span>
-                            <a href="#" onClick={cerrarSesion}>Cerrar sesión</a>
+                            <Link to="/mis-compras">Mis compras</Link>
+                            {esAdmin && (
+                                <>
+                                    <span className="separador_sesion">|</span>
+                                    <Link to="/admin/ventas">Ventas</Link>
+                                </>
+                            )}
+                            <span className="separador_sesion">|</span>
+                            <a href="#logout" onClick={cerrarSesion}>Cerrar sesión</a>
                         </>
                     ) : (
                         <>

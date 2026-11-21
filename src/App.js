@@ -9,6 +9,8 @@ import CatalogoPerros from './pages/CatalogoPerros';
 import CatalogoGatos from './pages/CatalogoGatos';
 import Detalle from './pages/Detalle';
 import Carrito from './pages/Carrito';
+import MisCompras from './pages/MisCompras';
+import AdminVentas from './pages/AdminVentas';
 import './index.css';
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
           <Route path="/gatos" element={<CatalogoGatos/>}/>
           <Route path="/detalle" element={<Detalle/>}/>
           <Route path="/carrito" element={<Carrito/>}/>
+          <Route path="/mis-compras" element={<MisCompras/>}/>
+          <Route path="/admin/ventas" element={<AdminVentas/>}/>
         </Routes>
       </Main>
     </BrowserRouter>
