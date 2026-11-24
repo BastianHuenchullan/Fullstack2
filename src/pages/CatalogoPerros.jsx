@@ -65,7 +65,7 @@ function CatalogoPerros() {
                                     <img src="/assets/productos_radial_vector.png" className="producto_fondo_hover" alt="Fondo" />
                                     <img src={producto.imagenUrl || '/assets/producto_1.png'} className="producto_imagen" alt={producto.nombre} />
 
-                                    {!tieneRol('ADMIN') && producto.stock > 0 && (
+                                    {!tieneRol('ADMIN', 'VENDEDOR') && producto.stock > 0 && (
                                         <div className="botones_producto">
                                             <button className="btn_icono_agregar" disabled={cargando} onClick={(e) => agregarAlCarrito(producto, e)}>
                                                 +

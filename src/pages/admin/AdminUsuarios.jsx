@@ -136,6 +136,7 @@ function AdminUsuarios() {
                         <label>Rol</label>
                         <select name="rol" className="input_formulario" disabled={idEdicion === usuario.id} value={formulario.rol} onChange={manejarCambio}>
                             <option value="CLIENTE">Cliente</option>
+                            <option value="VENDEDOR">Vendedor</option>
                             <option value="ADMIN">Administrador</option>
                         </select>
 

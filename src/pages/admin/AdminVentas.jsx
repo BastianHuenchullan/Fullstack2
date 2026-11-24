@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import { listarTodasLasBoletas, cambiarEstadoBoleta, obtenerReporteResumen } from '../../services/ventasService';
 
 function AdminVentas() {
+    const { tieneRol } = useAuth();
     const [boletas, setBoletas] = useState([]);
     const [resumen, setResumen] = useState(null);
     const [cargando, setCargando] = useState(true);
@@ -44,9 +46,9 @@ function AdminVentas() {
 
     return (
         <main className="main_general" style={{ flexDirection: 'column', alignItems: 'center' }}>
-            <h2 className="titulo_seccion">Información de Ventas</h2>
+            <h2 className="titulo_seccion">Información de ventas</h2>
 
-            <div className="caja_formularios" style={{ maxWidth: '900px', flexDirection: 'column', gap: '15px', width: '100%' }}>
+            <div className="caja_formularios" style={{ maxWidth: '1000px', flexDirection: 'column', gap: '15px', width: '100%' }}>
                 {cargando && <p style={{ textAlign: 'center' }}>Cargando...</p>}
                 {error && <p style={{ color: 'crimson', textAlign: 'center' }}>{error}</p>}
 
@@ -60,7 +62,9 @@ function AdminVentas() {
                                 <tr style={{ borderBottom: '2px solid #2A3E47', color: '#2A3E47' }}>
                                     <th style={{ padding: '8px' }}>ID</th>
                                     <th style={{ padding: '8px' }}>Cliente</th>
-                                    <th style={{ padding: '8px' }}>Comuna</th>
+                                    <th style={{ padding: '8px' }}>Dirección</th>
+                                    <th style={{ padding: '8px' }}>Producto</th>
+                                    <th style={{ padding: '8px' }}>Cantidad</th>
                                     <th style={{ padding: '8px' }}>Total</th>
                                     <th style={{ padding: '8px' }}>Estado</th>
                                 </tr>
@@ -70,20 +74,34 @@ function AdminVentas() {
                                     <tr key={b.id} style={{ borderBottom: '1px solid #ddd' }}>
                                         <td style={{ padding: '8px', fontWeight: 'bold' }}>#{b.id}</td>
                                         <td style={{ padding: '8px' }}>{b.nombre} {b.apellidos}</td>
-                                        <td style={{ padding: '8px' }}>{b.comuna}</td>
+                                        <td style={{ padding: '8px' }}>{b.calle}, {b.comuna}</td>
+                                        <td style={{ padding: '8px' }}>
+                                            {b.detalles?.map((det, idx) => (
+                                                <div key={det.id || idx}>{det.nombreProducto}</div>
+                                            ))}
+                                        </td>
+                                        <td style={{ padding: '8px' }}>
+                                            {b.detalles?.map((det, idx) => (
+                                                <div key={det.id || idx}>{det.cantidad}</div>
+                                            ))}
+                                        </td>
                                         <td style={{ padding: '8px', fontWeight: 'bold' }}>${(b.total || 0).toLocaleString('es-CL')}</td>
                                         <td style={{ padding: '8px' }}>
-                                            <select
-                                                className="input_formulario"
-                                                style={{ padding: '4px 8px', width: 'auto' }}
-                                                value={b.estado}
-                                                disabled={b.estado === 'ANULADA'}
-                                                onChange={(e) => manejarCambioEstado(b.id, e.target.value)}
-                                            >
-                                                <option value="PAGADA">PAGADA</option>
-                                                <option value="ENVIADA">ENVIADA</option>
-                                                <option value="ANULADA">ANULADA</option>
-                                            </select>
+                                            {tieneRol('ADMIN') ? (
+                                                <select
+                                                    className="input_formulario"
+                                                    style={{ padding: '4px 8px', width: 'auto' }}
+                                                    value={b.estado}
+                                                    disabled={b.estado === 'ANULADA'}
+                                                    onChange={(e) => manejarCambioEstado(b.id, e.target.value)}
+                                                >
+                                                    <option value="PAGADA">PAGADA</option>
+                                                    <option value="ENVIADA">ENVIADA</option>
+                                                    <option value="ANULADA">ANULADA</option>
+                                                </select>
+                                            ) : (
+                                                <span>{b.estado}</span>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

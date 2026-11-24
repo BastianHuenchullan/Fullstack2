@@ -8,6 +8,12 @@ function Header() {
     const { usuario, autenticado, cargando, cerrarSesion, tieneRol } = useAuth();
     const [cantidadCarrito, setCantidadCarrito] = useState(0);
 
+    const nombresRoles = {
+        ADMIN: 'Admin',
+        VENDEDOR: 'Vendedor',
+        CLIENTE: 'Cliente'
+    };
+
     useEffect(() => {
         const actualizarCarrito = () => {
             const items = JSON.parse(localStorage.getItem('carrito_items')) || [];
@@ -38,7 +44,7 @@ function Header() {
     return (
         <header className="header_principal">
             <div className="header_izq" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                {tieneRol('ADMIN') ? (
+                {tieneRol('ADMIN') && (
                     <>
                         <button className="btn_carrito" onClick={() => navigate('/admin/usuarios')}>
                             Administrar usuarios
@@ -47,7 +53,9 @@ function Header() {
                             Administrar productos
                         </button>
                     </>
-                ) : (
+                )}
+
+                {!tieneRol('ADMIN', 'VENDEDOR') && (
                     <button className="btn_carrito" onClick={irCarrito} disabled={cargando}>
                         Ver carrito (<span>{cantidadCarrito}</span>)
                     </button>
@@ -67,7 +75,7 @@ function Header() {
                     ) : autenticado ? (
                         <>
                             <span>
-                                ¡Hola, {usuario.nombre.split(' ')[0]}! ({tieneRol('ADMIN') ? 'Admin' : 'Cliente'})
+                                ¡Hola, {usuario.nombre.split(' ')[0]}! ({nombresRoles[usuario.rol] || usuario.rol})
                             </span>
 
                             {tieneRol('CLIENTE') && (
@@ -77,10 +85,10 @@ function Header() {
                                 </>
                             )}
 
-                            {tieneRol('ADMIN') && (
+                            {tieneRol('ADMIN', 'VENDEDOR') && (
                                 <>
                                     <span className="separador_sesion">|</span>
-                                    <Link to="/admin/ventas">Información Ventas</Link>
+                                    <Link to="/admin/ventas">Información ventas</Link>
                                 </>
                             )}
 
