@@ -63,6 +63,15 @@ function Carrito() {
         window.dispatchEvent(new Event('storage'));
     };
 
+    const formatearTexto = (texto) => {
+        return texto
+            .trim()
+            .toLowerCase()
+            .split(/\s+/)
+            .map((palabra) => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+            .join(' ');
+    };
+
     const realizarCompra = async (e) => {
         e.preventDefault();
 
@@ -75,10 +84,10 @@ function Carrito() {
             nombre: usuario.nombre,
             apellidos: usuario.apellidos,
             correo: usuario.correo,
-            calle: calle.trim(),
+            calle: formatearTexto(calle),
             departamento: null,
             region: 'Región Metropolitana',
-            comuna: comuna.trim(),
+            comuna: formatearTexto(comuna),
             indicaciones: null,
             items: carritoAgrupado.map(item => ({
                 productoId: item.productoId,
@@ -144,7 +153,7 @@ function Carrito() {
                             </div>
                             <div>
                                 <label className="etiqueta_formulario">Comuna*</label>
-                                <input type="text" className="input_formulario" placeholder="Ej. Santiago" required value={comuna} onChange={(e) => setComuna(e.target.value)} />
+                                <input type="text" className="input_formulario" placeholder="Ej. Puente Alto" required value={comuna} onChange={(e) => setComuna(e.target.value)} />
                             </div>
                         </div>
 

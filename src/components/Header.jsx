@@ -5,27 +5,13 @@ import { useAuth } from '../context/AuthContext';
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
-
-    const {
-        usuario,
-        autenticado,
-        cargando,
-        cerrarSesion,
-        tieneRol
-    } = useAuth();
-
+    const { usuario, autenticado, cargando, cerrarSesion, tieneRol } = useAuth();
     const [cantidadCarrito, setCantidadCarrito] = useState(0);
-
-    const nombresRoles = {
-        ADMIN: 'Admin',
-        CLIENTE: 'Cliente'
-    };
 
     useEffect(() => {
         const actualizarCarrito = () => {
-            const elementosCarrito =
-                JSON.parse(localStorage.getItem('carrito_items')) || [];
-            setCantidadCarrito(elementosCarrito.length);
+            const items = JSON.parse(localStorage.getItem('carrito_items')) || [];
+            setCantidadCarrito(items.length);
         };
 
         actualizarCarrito();
@@ -51,20 +37,18 @@ function Header() {
 
     return (
         <header className="header_principal">
-            <div className="header_izq">
+            <div className="header_izq" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 {tieneRol('ADMIN') ? (
-                    <button
-                        className="btn_carrito"
-                        onClick={() => navigate('/admin/usuarios')}
-                    >
-                        Administrar usuarios
-                    </button>
+                    <>
+                        <button className="btn_carrito" onClick={() => navigate('/admin/usuarios')}>
+                            Administrar usuarios
+                        </button>
+                        <button className="btn_carrito" onClick={() => navigate('/admin/productos')}>
+                            Administrar productos
+                        </button>
+                    </>
                 ) : (
-                    <button
-                        className="btn_carrito"
-                        onClick={irCarrito}
-                        disabled={cargando}
-                    >
+                    <button className="btn_carrito" onClick={irCarrito} disabled={cargando}>
                         Ver carrito (<span>{cantidadCarrito}</span>)
                     </button>
                 )}
@@ -72,11 +56,7 @@ function Header() {
 
             <div className="header_centro">
                 <Link to="/">
-                    <img
-                        src="/assets/petsalud_logo.png"
-                        alt="PetSalud Logo"
-                        className="header_logo"
-                    />
+                    <img src="/assets/petsalud_logo.png" alt="PetSalud Logo" className="header_logo" />
                 </Link>
             </div>
 
@@ -87,7 +67,7 @@ function Header() {
                     ) : autenticado ? (
                         <>
                             <span>
-                                ¡Hola, {usuario.nombre.split(' ')[0]}! ({nombresRoles[usuario.rol] || usuario.rol})
+                                ¡Hola, {usuario.nombre.split(' ')[0]}! ({tieneRol('ADMIN') ? 'Admin' : 'Cliente'})
                             </span>
 
                             {tieneRol('CLIENTE') && (
@@ -100,9 +80,7 @@ function Header() {
                             {tieneRol('ADMIN') && (
                                 <>
                                     <span className="separador_sesion">|</span>
-                                    <Link to="/admin/productos">Productos</Link>
-                                    <span className="separador_sesion">|</span>
-                                    <Link to="/admin/ventas">Ventas</Link>
+                                    <Link to="/admin/ventas">Información Ventas</Link>
                                 </>
                             )}
 

@@ -6,10 +6,7 @@ const formularioInicial = {
     nombre: '',
     descripcion: '',
     precio: '',
-    precioOferta: '',
-    enOferta: false,
     stock: '10',
-    stockCritico: '5',
     imagenUrl: '/assets/producto_1.png',
     categoriaId: ''
 };
@@ -20,7 +17,6 @@ function AdminProductos() {
     const [formulario, setFormulario] = useState(formularioInicial);
     const [idEdicion, setIdEdicion] = useState(null);
     const [cargando, setCargando] = useState(true);
-    const [guardando, setGuardando] = useState(false);
     const [error, setError] = useState('');
     const [mensaje, setMensaje] = useState('');
 
@@ -34,10 +30,10 @@ function AdminProductos() {
             setProductos(listaProductos);
             setCategorias(listaCategorias);
             if (listaCategorias.length > 0) {
-                setFormulario(prev => prev.categoriaId ? prev : { ...prev, categoriaId: String(listaCategorias[0].id) });
+                setFormulario((prev) => ({ ...prev, categoriaId: prev.categoriaId || String(listaCategorias[0].id) }));
             }
         } catch (err) {
-            setError(err.response?.data?.mensaje || 'No se pudieron cargar los productos.');
+            setError('Error al cargar productos.');
         } finally {
             setCargando(false);
         }
@@ -48,11 +44,8 @@ function AdminProductos() {
     }, [cargarDatos]);
 
     const manejarCambio = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormulario(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        const { name, value } = e.target;
+        setFormulario({ ...formulario, [name]: value });
     };
 
     const limpiarFormulario = () => {
@@ -63,21 +56,18 @@ function AdminProductos() {
         setIdEdicion(null);
     };
 
-    const editarProducto = (prod) => {
+    const editarProducto = (item) => {
         setError('');
         setMensaje('');
-        setIdEdicion(prod.id);
+        setIdEdicion(item.id);
         setFormulario({
-            codigo: prod.codigo,
-            nombre: prod.nombre,
-            descripcion: prod.descripcion || '',
-            precio: String(prod.precio),
-            precioOferta: prod.precioOferta ? String(prod.precioOferta) : '',
-            enOferta: Boolean(prod.enOferta),
-            stock: String(prod.stock),
-            stockCritico: String(prod.stockCritico),
-            imagenUrl: prod.imagenUrl || '/assets/producto_1.png',
-            categoriaId: String(prod.categoriaId)
+            codigo: item.codigo,
+            nombre: item.nombre,
+            descripcion: item.descripcion || '',
+            precio: String(item.precio),
+            stock: String(item.stock),
+            imagenUrl: item.imagenUrl || '/assets/producto_1.png',
+            categoriaId: String(item.categoriaId)
         });
     };
 
@@ -85,17 +75,16 @@ function AdminProductos() {
         e.preventDefault();
         setError('');
         setMensaje('');
-        setGuardando(true);
 
         const payload = {
             codigo: formulario.codigo.trim(),
             nombre: formulario.nombre.trim(),
             descripcion: formulario.descripcion.trim(),
             precio: parseInt(formulario.precio, 10),
-            precioOferta: formulario.enOferta && formulario.precioOferta ? parseInt(formulario.precioOferta, 10) : null,
-            enOferta: formulario.enOferta,
+            precioOferta: null,
+            enOferta: false,
             stock: parseInt(formulario.stock, 10),
-            stockCritico: parseInt(formulario.stockCritico, 10),
+            stockCritico: 5,
             imagenUrl: formulario.imagenUrl.trim(),
             categoriaId: Number(formulario.categoriaId)
         };
@@ -103,113 +92,90 @@ function AdminProductos() {
         try {
             if (idEdicion === null) {
                 await productoService.crear(payload);
-                setMensaje('Producto creado correctamente.');
+                setMensaje('Producto creado.');
             } else {
                 await productoService.actualizar(idEdicion, payload);
-                setMensaje('Producto actualizado correctamente.');
+                setMensaje('Producto actualizado.');
             }
             limpiarFormulario();
-            await cargarDatos();
+            cargarDatos();
         } catch (err) {
             setError(err.response?.data?.mensaje || 'No se pudo guardar el producto.');
-        } finally {
-            setGuardando(false);
         }
     };
 
-    const eliminarProducto = async (prod) => {
-        if (!window.confirm(`¿Deseas eliminar el producto "${prod.nombre}"?`)) return;
-        setError('');
-        setMensaje('');
-        setGuardando(true);
+    const eliminarProducto = async (item) => {
+        if (!window.confirm(`¿Eliminar ${item.nombre}?`)) return;
+
         try {
-            await productoService.eliminar(prod.id);
-            if (idEdicion === prod.id) limpiarFormulario();
-            setMensaje('Producto eliminado correctamente.');
-            await cargarDatos();
+            await productoService.eliminar(item.id);
+            if (idEdicion === item.id) limpiarFormulario();
+            setMensaje('Producto eliminado.');
+            cargarDatos();
         } catch (err) {
             setError(err.response?.data?.mensaje || 'No se pudo eliminar el producto.');
-        } finally {
-            setGuardando(false);
         }
     };
 
     return (
-        <main className="main_general" style={{ flexDirection: 'column', alignItems: 'center', gap: '25px' }}>
+        <main className="main_general" style={{ flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
             <h2 className="titulo_seccion">Administración de productos</h2>
 
-            {error && <div className="admin_error" role="alert">{error}</div>}
-            {mensaje && <div className="admin_exito" role="status">{mensaje}</div>}
+            {error && <div className="admin_error">{error}</div>}
+            {mensaje && <div className="admin_exito">{mensaje}</div>}
 
             <div className="admin_contenedor">
                 <section className="admin_panel">
-                    <h3>{idEdicion === null ? 'Crear producto' : 'Editar producto'}</h3>
+                    <h3>{idEdicion === null ? 'Nuevo producto' : 'Editar producto'}</h3>
 
                     <form className="admin_formulario" onSubmit={manejarSubmit}>
-                        <label htmlFor="prod_codigo">Código</label>
-                        <input id="prod_codigo" name="codigo" className="input_formulario" placeholder="PROD-005" maxLength={30} required value={formulario.codigo} onChange={manejarCambio} />
+                        <label>Código</label>
+                        <input name="codigo" className="input_formulario" placeholder="PROD-005" required value={formulario.codigo} onChange={manejarCambio} />
 
-                        <label htmlFor="prod_nombre">Nombre</label>
-                        <input id="prod_nombre" name="nombre" className="input_formulario" maxLength={120} required value={formulario.nombre} onChange={manejarCambio} />
+                        <label>Nombre</label>
+                        <input name="nombre" className="input_formulario" required value={formulario.nombre} onChange={manejarCambio} />
 
-                        <label htmlFor="prod_categoria">Categoría</label>
-                        <select id="prod_categoria" name="categoriaId" className="input_formulario" required value={formulario.categoriaId} onChange={manejarCambio}>
-                            {categorias.map(cat => (
+                        <label>Categoría</label>
+                        <select name="categoriaId" className="input_formulario" required value={formulario.categoriaId} onChange={manejarCambio}>
+                            {categorias.map((cat) => (
                                 <option key={cat.id} value={cat.id}>{cat.nombre}</option>
                             ))}
                         </select>
 
-                        <label htmlFor="prod_precio">Precio normal (CLP)</label>
-                        <input id="prod_precio" name="precio" type="number" min="1" className="input_formulario" required value={formulario.precio} onChange={manejarCambio} />
+                        <label>Precio (CLP)</label>
+                        <input name="precio" type="number" min="1" className="input_formulario" required value={formulario.precio} onChange={manejarCambio} />
 
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                            <input type="checkbox" name="enOferta" checked={formulario.enOferta} onChange={manejarCambio} />
-                            En oferta
-                        </label>
+                        <label>Stock</label>
+                        <input name="stock" type="number" min="0" className="input_formulario" required value={formulario.stock} onChange={manejarCambio} />
 
-                        {formulario.enOferta && (
-                            <>
-                                <label htmlFor="prod_oferta">Precio oferta (CLP)</label>
-                                <input id="prod_oferta" name="precioOferta" type="number" min="1" className="input_formulario" required value={formulario.precioOferta} onChange={manejarCambio} />
-                            </>
-                        )}
+                        <label>Imagen</label>
+                        <input name="imagenUrl" className="input_formulario" value={formulario.imagenUrl} onChange={manejarCambio} />
 
-                        <label htmlFor="prod_stock">Stock actual</label>
-                        <input id="prod_stock" name="stock" type="number" min="0" className="input_formulario" required value={formulario.stock} onChange={manejarCambio} />
+                        <label>Descripción</label>
+                        <input name="descripcion" className="input_formulario" value={formulario.descripcion} onChange={manejarCambio} />
 
-                        <label htmlFor="prod_critico">Stock crítico</label>
-                        <input id="prod_critico" name="stockCritico" type="number" min="0" className="input_formulario" required value={formulario.stockCritico} onChange={manejarCambio} />
-
-                        <label htmlFor="prod_img">Ruta de imagen</label>
-                        <input id="prod_img" name="imagenUrl" className="input_formulario" value={formulario.imagenUrl} onChange={manejarCambio} />
-
-                        <label htmlFor="prod_desc">Descripción</label>
-                        <input id="prod_desc" name="descripcion" className="input_formulario" maxLength={500} value={formulario.descripcion} onChange={manejarCambio} />
-
-                        <button type="submit" className="btn_principal" disabled={guardando}>
-                            {guardando ? 'Guardando...' : idEdicion === null ? 'Crear producto' : 'Guardar cambios'}
+                        <button type="submit" className="btn_principal">
+                            {idEdicion === null ? 'Crear' : 'Guardar'}
                         </button>
 
                         {idEdicion !== null && (
-                            <button type="button" className="admin_btn_cancelar" disabled={guardando} onClick={limpiarFormulario}>
-                                Cancelar edición
+                            <button type="button" className="admin_btn_cancelar" onClick={limpiarFormulario}>
+                                Cancelar
                             </button>
                         )}
                     </form>
                 </section>
 
                 <section className="admin_panel">
-                    <h3>Inventario de productos</h3>
-                    <p>Total registrados: {productos.length}</p>
+                    <h3>Productos registrados</h3>
 
                     {cargando ? (
-                        <p>Cargando productos...</p>
+                        <p>Cargando...</p>
                     ) : (
                         <div className="admin_tabla_contenedor">
                             <table className="admin_tabla">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Código</th>
                                         <th>Nombre</th>
                                         <th>Categoría</th>
@@ -219,27 +185,16 @@ function AdminProductos() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {productos.map(item => (
+                                    {productos.map((item) => (
                                         <tr key={item.id}>
-                                            <td>{item.id}</td>
                                             <td>{item.codigo}</td>
                                             <td>{item.nombre}</td>
                                             <td>{item.categoriaNombre}</td>
-                                            <td>
-                                                ${(item.enOferta && item.precioOferta ? item.precioOferta : item.precio).toLocaleString('es-CL')}
-                                            </td>
-                                            <td style={{ color: item.stock <= item.stockCritico ? 'crimson' : 'inherit', fontWeight: item.stock <= item.stockCritico ? 'bold' : 'normal' }}>
-                                                {item.stock}
-                                            </td>
-                                            <td>
-                                                <div className="admin_acciones">
-                                                    <button type="button" className="admin_btn_editar" disabled={guardando} onClick={() => editarProducto(item)}>
-                                                        Editar
-                                                    </button>
-                                                    <button type="button" className="admin_btn_eliminar" disabled={guardando} onClick={() => eliminarProducto(item)}>
-                                                        Eliminar
-                                                    </button>
-                                                </div>
+                                            <td>${(item.precio || 0).toLocaleString('es-CL')}</td>
+                                            <td>{item.stock}</td>
+                                            <td style={{ display: 'flex', gap: '6px' }}>
+                                                <button type="button" className="admin_btn_editar" onClick={() => editarProducto(item)}>Editar</button>
+                                                <button type="button" className="admin_btn_eliminar" onClick={() => eliminarProducto(item)}>Eliminar</button>
                                             </td>
                                         </tr>
                                     ))}

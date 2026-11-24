@@ -15,7 +15,7 @@ import Carrito from './pages/Carrito';
 import MisCompras from './pages/MisCompras';
 import AdminUsuarios from './pages/admin/AdminUsuarios';
 import AdminProductos from './pages/admin/AdminProductos';
-import AdminVentas from './pages/AdminVentas';
+import AdminVentas from './pages/admin/AdminVentas';
 
 import './index.css';
 
