@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -13,7 +12,10 @@ import CatalogoPerros from './pages/CatalogoPerros';
 import CatalogoGatos from './pages/CatalogoGatos';
 import Detalle from './pages/Detalle';
 import Carrito from './pages/Carrito';
+import MisCompras from './pages/MisCompras';
 import AdminUsuarios from './pages/admin/AdminUsuarios';
+import AdminProductos from './pages/admin/AdminProductos';
+import AdminVentas from './pages/AdminVentas';
 
 import './index.css';
 
@@ -22,19 +24,12 @@ function App() {
         <BrowserRouter>
             <Main>
                 <Routes>
-
                     <Route path="/" element={<Inicio />} />
-
                     <Route path="/login" element={<Login />} />
-
                     <Route path="/registro" element={<Registro />} />
-
                     <Route path="/contacto" element={<Contacto />} />
-
                     <Route path="/perros" element={<CatalogoPerros />} />
-
                     <Route path="/gatos" element={<CatalogoGatos />} />
-
                     <Route path="/detalle" element={<Detalle />} />
 
                     <Route
@@ -42,6 +37,15 @@ function App() {
                         element={
                             <ProtectedRoute roles={['CLIENTE']}>
                                 <Carrito />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/mis-compras"
+                        element={
+                            <ProtectedRoute roles={['CLIENTE']}>
+                                <MisCompras />
                             </ProtectedRoute>
                         }
                     />
@@ -55,6 +59,23 @@ function App() {
                         }
                     />
 
+                    <Route
+                        path="/admin/productos"
+                        element={
+                            <ProtectedRoute roles={['ADMIN']}>
+                                <AdminProductos />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/ventas"
+                        element={
+                            <ProtectedRoute roles={['ADMIN']}>
+                                <AdminVentas />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
             </Main>
         </BrowserRouter>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -26,28 +25,18 @@ function Header() {
         const actualizarCarrito = () => {
             const elementosCarrito =
                 JSON.parse(localStorage.getItem('carrito_items')) || [];
-
             setCantidadCarrito(elementosCarrito.length);
         };
 
         actualizarCarrito();
-
         window.addEventListener('storage', actualizarCarrito);
-
-        return () => {
-            window.removeEventListener('storage', actualizarCarrito);
-        };
-
+        return () => window.removeEventListener('storage', actualizarCarrito);
     }, [location.pathname]);
 
     const manejarCerrarSesion = () => {
         cerrarSesion();
-
-        localStorage.removeItem('usuario_actual');
         localStorage.removeItem('carrito_items');
-
         setCantidadCarrito(0);
-
         navigate('/', { replace: true });
     };
 
@@ -62,9 +51,7 @@ function Header() {
 
     return (
         <header className="header_principal">
-
             <div className="header_izq">
-
                 {tieneRol('ADMIN') ? (
                     <button
                         className="btn_carrito"
@@ -81,7 +68,6 @@ function Header() {
                         Ver carrito (<span>{cantidadCarrito}</span>)
                     </button>
                 )}
-
             </div>
 
             <div className="header_centro">
@@ -96,21 +82,31 @@ function Header() {
 
             <div className="header_der">
                 <div className="enlaces_sesion">
-
                     {cargando ? (
                         <span>Cargando...</span>
-
                     ) : autenticado ? (
                         <>
                             <span>
-                                ¡Hola, {usuario.nombre.split(' ')[0]}!
-                                {' '}
-                                ({nombresRoles[usuario.rol]})
+                                ¡Hola, {usuario.nombre.split(' ')[0]}! ({nombresRoles[usuario.rol] || usuario.rol})
                             </span>
 
-                            <span className="separador_sesion">
-                                |
-                            </span>
+                            {tieneRol('CLIENTE') && (
+                                <>
+                                    <span className="separador_sesion">|</span>
+                                    <Link to="/mis-compras">Mis compras</Link>
+                                </>
+                            )}
+
+                            {tieneRol('ADMIN') && (
+                                <>
+                                    <span className="separador_sesion">|</span>
+                                    <Link to="/admin/productos">Productos</Link>
+                                    <span className="separador_sesion">|</span>
+                                    <Link to="/admin/ventas">Ventas</Link>
+                                </>
+                            )}
+
+                            <span className="separador_sesion">|</span>
 
                             <button
                                 type="button"
@@ -127,26 +123,15 @@ function Header() {
                                 Cerrar sesión
                             </button>
                         </>
-
                     ) : (
                         <>
-                            <Link to="/login">
-                                Iniciar sesión
-                            </Link>
-
-                            <span className="separador_sesion">
-                                |
-                            </span>
-
-                            <Link to="/registro">
-                                Registrarse
-                            </Link>
+                            <Link to="/login">Iniciar sesión</Link>
+                            <span className="separador_sesion">|</span>
+                            <Link to="/registro">Registrarse</Link>
                         </>
                     )}
-
                 </div>
             </div>
-
         </header>
     );
 }

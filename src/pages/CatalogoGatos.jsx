@@ -1,13 +1,26 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { obtenerProductosPorCategoria } from '../data/productosData';
 import { useAuth } from '../context/AuthContext';
+import productoService from '../services/productoService';
 
 function CatalogoGatos() {
-
-    const gatos = obtenerProductosPorCategoria('gato');
+    const [gatos, setGatos] = useState([]);
+    const [cargandoProductos, setCargandoProductos] = useState(true);
     const { autenticado, cargando, tieneRol } = useAuth();
+
+    useEffect(() => {
+        const cargar = async () => {
+            try {
+                const datos = await productoService.listar({ categoria: 'Gatos' });
+                setGatos(datos);
+            } catch (error) {
+                console.error('Error al cargar productos de gatos:', error);
+            } finally {
+                setCargandoProductos(false);
+            }
+        };
+        cargar();
+    }, []);
 
     const agregarAlCarrito = (producto, e) => {
         e.preventDefault();
@@ -22,88 +35,92 @@ function CatalogoGatos() {
             return;
         }
 
-        const elementosCarrito =
-            JSON.parse(localStorage.getItem('carrito_items')) || [];
+        if (producto.stock <= 0) {
+            alert('Este producto no tiene stock disponible.');
+            return;
+        }
+
+        const elementosCarrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
 
         if (elementosCarrito.length < 10) {
             elementosCarrito.push(producto);
-
-            localStorage.setItem(
-                'carrito_items',
-                JSON.stringify(elementosCarrito)
-            );
-
+            localStorage.setItem('carrito_items', JSON.stringify(elementosCarrito));
+            window.dispatchEvent(new Event('storage'));
             alert('¡Producto agregado al carro con éxito!');
-            window.location.reload();
-
         } else {
             alert('Límite máximo de 10 artículos en el carrito.');
         }
     };
 
     const verDetalle = (producto) => {
-        localStorage.setItem('detalle_titulo', producto.titulo);
-        localStorage.setItem('detalle_precio', producto.precio);
-        localStorage.setItem('detalle_imagen', `/assets/${producto.imagen}`);
-        localStorage.setItem('detalle_descripcion', producto.detalle);
+        localStorage.setItem('detalle_producto', JSON.stringify(producto));
     };
 
     return (
         <main className="main_productos">
-            <h2 className="titulo_seccion">
-                Productos de gatos
-            </h2>
+            <h2 className="titulo_seccion">Productos de gatos</h2>
 
-            <div className="productos_grid">
-                {gatos.map((producto) => (
-                    <Link
-                        to="/detalle"
-                        key={producto.id}
-                        className="producto_tarjeta"
-                        onClick={() => verDetalle(producto)}
-                        style={{ textDecoration: 'none' }}
-                    >
-                        <div className="producto_imagen_contenedor">
+            {cargandoProductos ? (
+                <p style={{ textAlign: 'center' }}>Cargando catálogo...</p>
+            ) : gatos.length === 0 ? (
+                <p style={{ textAlign: 'center', color: 'gray' }}>No hay productos disponibles para gatos.</p>
+            ) : (
+                <div className="productos_grid">
+                    {gatos.map((producto) => {
+                        const precioFinal = producto.enOferta && producto.precioOferta
+                            ? producto.precioOferta
+                            : producto.precio;
 
-                            <img
-                                src="/assets/productos_radial_vector.png"
-                                className="producto_fondo_hover"
-                                alt="Fondo"
-                            />
+                        return (
+                            <Link
+                                to="/detalle"
+                                key={producto.id}
+                                className="producto_tarjeta"
+                                onClick={() => verDetalle(producto)}
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <div className="producto_imagen_contenedor">
+                                    <img
+                                        src="/assets/productos_radial_vector.png"
+                                        className="producto_fondo_hover"
+                                        alt="Fondo"
+                                    />
+                                    <img
+                                        src={producto.imagenUrl || '/assets/producto_6.png'}
+                                        className="producto_imagen"
+                                        alt={producto.nombre}
+                                    />
 
-                            <img
-                                src={`/assets/${producto.imagen}`}
-                                className="producto_imagen"
-                                alt={producto.titulo}
-                            />
-
-                            {!tieneRol('ADMIN') && (
-                                <div className="botones_producto">
-                                    <button
-                                        className="btn_icono_agregar"
-                                        disabled={cargando}
-                                        onClick={(e) =>
-                                            agregarAlCarrito(producto, e)
-                                        }
-                                    >
-                                        +
-                                    </button>
+                                    {!tieneRol('ADMIN') && producto.stock > 0 && (
+                                        <div className="botones_producto">
+                                            <button
+                                                className="btn_icono_agregar"
+                                                disabled={cargando}
+                                                onClick={(e) => agregarAlCarrito(producto, e)}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
 
-                        </div>
-
-                        <h3 className="producto_titulo">
-                            {producto.titulo}
-                        </h3>
-
-                        <p className="producto_precio">
-                            {producto.precio}
-                        </p>
-
-                    </Link>
-                ))}
-            </div>
+                                <h3 className="producto_titulo">{producto.nombre}</h3>
+                                <p className="producto_precio">
+                                    ${(precioFinal || 0).toLocaleString('es-CL')}
+                                    {producto.enOferta && producto.precioOferta && (
+                                        <span style={{ fontSize: '13px', color: '#2e7d32', marginLeft: '6px' }}>
+                                            (Oferta)
+                                        </span>
+                                    )}
+                                </p>
+                                <p style={{ fontSize: '13px', color: producto.stock > 0 ? '#555' : 'crimson', margin: 0 }}>
+                                    {producto.stock > 0 ? `Stock: ${producto.stock}` : 'Agotado'}
+                                </p>
+                            </Link>
+                        );
+                    })}
+                </div>
+            )}
         </main>
     );
 }
