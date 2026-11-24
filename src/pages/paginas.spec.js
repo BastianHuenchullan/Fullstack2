@@ -1,11 +1,12 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from '../context/AuthContext';
 import Inicio from './Inicio';
 import Login from './Login';
 import Contacto from './Contacto';
 
 describe('Páginas principales de PetSalud', () => {
-    
+
     // Prueba 7
     it('La página de Inicio debería mostrar el texto de la historia de la tienda', () => {
         const { container } = render(
@@ -29,9 +30,11 @@ describe('Páginas principales de PetSalud', () => {
     // Prueba 9
     it('La página de Login debería contener los campos para el correo y contraseña', () => {
         const { container } = render(
-            <BrowserRouter>
-                <Login />
-            </BrowserRouter>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Login />
+                </BrowserRouter>
+            </AuthProvider>
         );
         expect(container.textContent).toContain('Correo electrónico:');
         expect(container.textContent).toContain('Contraseña:');

@@ -1,16 +1,19 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from '../context/AuthContext';
 import Header from './Header';
 import Footer from './Footer';
 
 describe('Elementos de los componentes Header y Footer)', () => {
-    
+
     // Prueba 4
     it('El Header debería mostrar el boton del carrito', () => {
         const { container } = render(
-            <BrowserRouter>
-                <Header />
-            </BrowserRouter>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Header />
+                </BrowserRouter>
+            </AuthProvider>
         );
         expect(container.textContent).toContain('Ver carrito');
     });
@@ -18,9 +21,11 @@ describe('Elementos de los componentes Header y Footer)', () => {
     // Prueba 5
     it('El Header debería mostrar los enlaces para Iniciar sesion y Registrarse', () => {
         const { container } = render(
-            <BrowserRouter>
-                <Header />
-            </BrowserRouter>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Header />
+                </BrowserRouter>
+            </AuthProvider>
         );
         expect(container.textContent).toContain('Iniciar sesión');
         expect(container.textContent).toContain('Registrarse');

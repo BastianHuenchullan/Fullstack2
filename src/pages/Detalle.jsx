@@ -79,7 +79,7 @@ function Detalle() {
                         Stock disponible: <strong>{producto.stock}</strong> unidades
                     </p>
 
-                    {!tieneRol('ADMIN') && (
+                    {!tieneRol('ADMIN', 'VENDEDOR') && (
                         <button
                             className="btn_principal"
                             disabled={cargando || producto.stock <= 0}
