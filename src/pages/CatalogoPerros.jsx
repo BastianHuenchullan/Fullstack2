@@ -9,17 +9,10 @@ function CatalogoPerros() {
     const { autenticado, cargando, tieneRol } = useAuth();
 
     useEffect(() => {
-        const cargar = async () => {
-            try {
-                const datos = await productoService.listar({ categoria: 'Perros' });
-                setPerros(datos);
-            } catch (error) {
-                console.error('Error al cargar productos de perros:', error);
-            } finally {
-                setCargandoProductos(false);
-            }
-        };
-        cargar();
+        productoService.listar({ categoria: 'Perros' })
+            .then(setPerros)
+            .catch((err) => console.error(err))
+            .finally(() => setCargandoProductos(false));
     }, []);
 
     const agregarAlCarrito = (producto, e) => {
@@ -30,18 +23,9 @@ function CatalogoPerros() {
             alert('Por favor, inicia sesión para añadir al carrito.');
             return;
         }
-
-        if (!tieneRol('CLIENTE')) {
-            return;
-        }
-
-        if (producto.stock <= 0) {
-            alert('Este producto no tiene stock disponible.');
-            return;
-        }
+        if (!tieneRol('CLIENTE')) return;
 
         const elementosCarrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
-
         if (elementosCarrito.length < 10) {
             elementosCarrito.push(producto);
             localStorage.setItem('carrito_items', JSON.stringify(elementosCarrito));
@@ -62,8 +46,6 @@ function CatalogoPerros() {
 
             {cargandoProductos ? (
                 <p style={{ textAlign: 'center' }}>Cargando catálogo...</p>
-            ) : perros.length === 0 ? (
-                <p style={{ textAlign: 'center', color: 'gray' }}>No hay productos disponibles para perros.</p>
             ) : (
                 <div className="productos_grid">
                     {perros.map((producto) => {
@@ -80,24 +62,12 @@ function CatalogoPerros() {
                                 style={{ textDecoration: 'none' }}
                             >
                                 <div className="producto_imagen_contenedor">
-                                    <img
-                                        src="/assets/productos_radial_vector.png"
-                                        className="producto_fondo_hover"
-                                        alt="Fondo"
-                                    />
-                                    <img
-                                        src={producto.imagenUrl || '/assets/producto_1.png'}
-                                        className="producto_imagen"
-                                        alt={producto.nombre}
-                                    />
+                                    <img src="/assets/productos_radial_vector.png" className="producto_fondo_hover" alt="Fondo" />
+                                    <img src={producto.imagenUrl || '/assets/producto_1.png'} className="producto_imagen" alt={producto.nombre} />
 
                                     {!tieneRol('ADMIN') && producto.stock > 0 && (
                                         <div className="botones_producto">
-                                            <button
-                                                className="btn_icono_agregar"
-                                                disabled={cargando}
-                                                onClick={(e) => agregarAlCarrito(producto, e)}
-                                            >
+                                            <button className="btn_icono_agregar" disabled={cargando} onClick={(e) => agregarAlCarrito(producto, e)}>
                                                 +
                                             </button>
                                         </div>
@@ -105,14 +75,7 @@ function CatalogoPerros() {
                                 </div>
 
                                 <h3 className="producto_titulo">{producto.nombre}</h3>
-                                <p className="producto_precio">
-                                    ${(precioFinal || 0).toLocaleString('es-CL')}
-                                    {producto.enOferta && producto.precioOferta && (
-                                        <span style={{ fontSize: '13px', color: '#2e7d32', marginLeft: '6px' }}>
-                                            (Oferta)
-                                        </span>
-                                    )}
-                                </p>
+                                <p className="producto_precio">${(precioFinal || 0).toLocaleString('es-CL')}</p>
                                 <p style={{ fontSize: '13px', color: producto.stock > 0 ? '#555' : 'crimson', margin: 0 }}>
                                     {producto.stock > 0 ? `Stock: ${producto.stock}` : 'Agotado'}
                                 </p>
